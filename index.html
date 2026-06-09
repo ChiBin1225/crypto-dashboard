@@ -163,116 +163,155 @@
     gap: 14px;
   }
 
-  /* COIN CARDS */
+  /* TABLE LAYOUT */
   .coins-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 12px;
+    width: 100%;
+    overflow-x: auto;
   }
 
-  .coin-card {
-    background: var(--bg2);
-    border: 1px solid #1a2840;
-    border-radius: 6px;
-    overflow: hidden;
-    transition: all 0.2s;
-  }
-
-  .coin-card:hover {
-    border-color: rgba(255,230,0,0.3);
-    box-shadow: 0 0 16px rgba(255,230,0,0.06);
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, #0f1a2e 0%, #0a1220 100%);
-    border-bottom: 1px solid #1e3050;
-  }
-
-  .card-symbol {
+  .table-wrap {
+    width: 100%;
+    border-collapse: collapse;
     font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .table-wrap thead tr {
+    background: #060c14;
+    border-bottom: 2px solid #1a3050;
+  }
+
+  .table-wrap thead th {
+    padding: 10px 14px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #4a8abf;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    white-space: nowrap;
+    text-align: left;
+    border-right: 1px solid #0f1e30;
+  }
+
+  .table-wrap thead th:last-child { border-right: none; }
+
+  .table-wrap tbody tr {
+    border-bottom: 1px solid #0f1a28;
+    transition: background 0.15s;
+  }
+
+  .table-wrap tbody tr:hover {
+    background: #0d1928;
+  }
+
+  .table-wrap tbody tr.loading-row {
+    opacity: 0.3;
+  }
+
+  .table-wrap tbody td {
+    padding: 9px 14px;
+    font-size: 12px;
+    white-space: nowrap;
+    border-right: 1px solid #0a1520;
+    vertical-align: middle;
+  }
+
+  .table-wrap tbody td:last-child { border-right: none; }
+
+  /* col specific */
+  .col-symbol { min-width: 100px; }
+  .col-price  { min-width: 110px; }
+  .col-chg    { min-width: 70px; }
+  .col-vol    { min-width: 90px; }
+  .col-fund   { min-width: 90px; }
+  .col-oi     { min-width: 90px; }
+  .col-oichg  { min-width: 90px; }
+  .col-ls     { min-width: 100px; }
+  .col-taker  { min-width: 130px; }
+  .col-signal { min-width: 160px; }
+
+  .t-symbol {
     font-size: 13px;
     font-weight: 700;
     color: var(--accent);
-    text-shadow: 0 0 8px rgba(255,230,0,0.4);
+    text-shadow: 0 0 8px rgba(255,230,0,0.35);
     letter-spacing: 1px;
   }
 
-  .card-price {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 16px;
+  .t-price {
+    font-size: 13px;
     font-weight: 700;
     color: #ffffff;
-    text-shadow: 0 0 6px rgba(255,255,255,0.15);
   }
 
+  .t-vol { color: var(--text-dim); font-size: 11px; }
+
+  .t-label {
+    font-size: 9px;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 1px;
+  }
+
+  /* taker bar */
+  .taker-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .taker-track {
+    width: 80px;
+    height: 5px;
+    background: rgba(255,45,85,0.25);
+    border-radius: 3px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .taker-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.4s;
+  }
+
+  /* ls bar */
+  .ls-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .ls-track {
+    width: 60px;
+    height: 5px;
+    background: rgba(255,45,85,0.25);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .ls-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+  }
+
+  /* signal badges inline */
+  .signal-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  /* card-change reuse */
   .card-change {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     padding: 2px 6px;
     border-radius: 3px;
   }
-
-  .card-change.pos { background: rgba(0,230,118,0.12); color: var(--green); }
-  .card-change.neg { background: rgba(255,68,68,0.12); color: var(--red); }
-
-  /* METRICS */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-
-  .metric {
-    padding: 10px 14px;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .metric:nth-child(even) { border-right: none; }
-  .metric:nth-last-child(-n+2) { border-bottom: none; }
-
-  .metric-label {
-    font-size: 10px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 4px;
-  }
-
-  .metric-value {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-
-  .metric-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-top: 2px;
-  }
-
-  /* SIGNAL BAR */
-  .signal-bar {
-    padding: 8px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-    background: var(--bg3);
-  }
-
-  .signal-label { font-size: 10px; color: var(--text-dim); }
-
-  .signal-badges {
-    display: flex;
-    gap: 6px;
-  }
+  .card-change.pos { background: rgba(0,255,136,0.1); color: var(--green); }
+  .card-change.neg { background: rgba(255,45,85,0.1); color: var(--red); }
 
   .badge {
     font-family: 'IBM Plex Mono', monospace;
@@ -711,7 +750,7 @@ function renderMarketBar(tickers) {
 
 function renderCoinCard(sym, data) {
   const { ticker, funding, oi, lsRatio, takerRatio, oiChange } = data;
-  if (!ticker) return '';
+  if (!ticker) return `<tr class="loading-row"><td colspan="10" style="color:var(--text-dim);font-size:11px;padding:10px 14px;">${sym} loading...</td></tr>`;
 
   const fVal = funding?.funding ?? 0;
   const fClass = fVal >= 0 ? 'pos' : 'neg';
@@ -722,67 +761,60 @@ function renderCoinCard(sym, data) {
 
   const lsDisplay = lsRatio ? lsRatio.toFixed(3) : '–';
   const lsPct = lsRatio ? Math.min(((lsRatio / (1 + lsRatio)) * 100), 100).toFixed(1) : '50';
+  const lsClass = lsRatio > 1 ? 'pos' : lsRatio < 1 ? 'neg' : '';
 
-  // Taker ratio
   const trBuy = takerRatio ? takerRatio.buyPct : '–';
   const trSell = takerRatio ? takerRatio.sellPct : '–';
   const trRatio = takerRatio ? takerRatio.ratio : 0.5;
   const trClass = trRatio > 0.55 ? 'pos' : trRatio < 0.45 ? 'neg' : 'neu';
+  const trPct = (trRatio * 100).toFixed(0);
 
-  // OI Change
   const oiChgVal = oiChange !== null && oiChange !== undefined ? oiChange : null;
   const oiChgClass = oiChgVal > 1 ? 'pos' : oiChgVal < -1 ? 'neg' : 'neu';
   const oiChgSign = oiChgVal > 0 ? '+' : '';
   const oiChgDisplay = oiChgVal !== null ? `${oiChgSign}${oiChgVal.toFixed(2)}%` : '–';
 
-  return `<div class="coin-card">
-    <div class="card-header">
-      <div>
-        <div class="card-symbol">${sym}/USDT</div>
-        <div class="card-price">$${formatPrice(ticker.price)}</div>
+  return `<tr>
+    <td class="col-symbol"><span class="t-symbol">${sym}</span></td>
+    <td class="col-price"><span class="t-price">$${formatPrice(ticker.price)}</span></td>
+    <td class="col-chg"><span class="card-change ${chgClass}">${chgSign}${ticker.change.toFixed(2)}%</span></td>
+    <td class="col-vol"><span class="t-vol">$${formatNum(ticker.volume)}</span></td>
+    <td class="col-fund">
+      <span class="${fClass}" style="font-size:13px;font-weight:600">${fSign}${(fVal * 100).toFixed(4)}%</span>
+      <span class="t-label">${fVal > 0 ? 'Long trả phí' : 'Short trả phí'}</span>
+    </td>
+    <td class="col-oi">
+      <span style="color:#e8f4ff;font-size:12px">${formatNum(oi)}</span>
+      <span class="t-label">contracts</span>
+    </td>
+    <td class="col-oichg">
+      <span class="${oiChgClass}" style="font-size:13px;font-weight:600">${oiChgDisplay}</span>
+      <span class="t-label">vs 4 nến</span>
+    </td>
+    <td class="col-ls">
+      <div class="ls-bar">
+        <span class="${lsClass}" style="font-size:12px;font-weight:600;width:38px">${lsDisplay}</span>
+        <div>
+          <div class="ls-track"><div class="ls-fill" style="width:${lsPct}%"></div></div>
+          <span class="t-label">Long ${lsPct}%</span>
+        </div>
       </div>
-      <div>
-        <div class="card-change ${chgClass}">${chgSign}${ticker.change.toFixed(2)}%</div>
-        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;font-family:'IBM Plex Mono',monospace;">Vol $${formatNum(ticker.volume)}</div>
+    </td>
+    <td class="col-taker">
+      <div class="taker-bar">
+        <span class="${trClass}" style="font-size:12px;font-weight:600;width:38px">${trBuy}%</span>
+        <div>
+          <div class="taker-track"><div class="taker-fill" style="width:${trPct}%"></div></div>
+          <span class="t-label">B ${trBuy}% / S ${trSell}%</span>
+        </div>
       </div>
-    </div>
-    <div class="metrics-grid">
-      <div class="metric">
-        <div class="metric-label">Funding Rate</div>
-        <div class="metric-value ${fClass}">${fSign}${(fVal * 100).toFixed(4)}%</div>
-        <div class="metric-sub">${fVal > 0 ? 'Long trả phí' : 'Short trả phí'}</div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-label">L/S Ratio</div>
-        <div class="metric-value ${lsRatio > 1 ? 'pos' : lsRatio < 1 ? 'neg' : ''}">${lsDisplay}</div>
-        <div class="metric-sub">Long ${lsPct}%</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Taker Buy Ratio</div>
-        <div class="metric-value ${trClass}">${trBuy}%</div>
-        <div class="metric-sub"><span class="pos">B ${trBuy}%</span> / <span class="neg">S ${trSell}%</span></div>
-      </div>
-    </div>
-    <div class="metrics-grid" style="border-top:1px solid var(--border)">
-      <div class="metric" style="border-bottom:none">
-        <div class="metric-label">OI Change (${currentTF}×4)</div>
-        <div class="metric-value ${oiChgClass}">${oiChgDisplay}</div>
-        <div class="metric-sub">vs 4 nến trước</div>
-      </div>
-      <div class="metric" style="border-bottom:none">
-        <div class="metric-label">OI Absolute</div>
-        <div class="metric-value">${formatNum(oi)}</div>
-        <div class="metric-sub">contracts</div>
-      </div>
-    </div>
-    <div class="signal-bar">
-      <span class="signal-label">SIGNAL</span>
+    </td>
+    <td class="col-signal">
       <div class="signal-badges">
         ${signals.map(s => `<span class="badge ${s.cls}">${s.text}</span>`).join('')}
       </div>
-    </div>
-  </div>`;
+    </td>
+  </tr>`;
 }
 
 function renderHeatmap(fundingMap, tickers) {
@@ -870,7 +902,15 @@ async function loadAll() {
       }));
       // Render từng batch ngay khi có data
       const grid = document.getElementById('coinsGrid');
-      grid.innerHTML = activeCoins.map(c => coinData[c] ? renderCoinCard(c, coinData[c]) : `<div class="coin-card" style="opacity:0.3;min-height:180px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim)">${c} loading...</div>`).join('');
+      const rows = activeCoins.map(c => coinData[c] ? renderCoinCard(c, coinData[c]) : `<tr class="loading-row"><td colspan="10" style="color:var(--text-dim);font-size:11px;padding:10px 14px;">${c} loading...</td></tr>`).join('');
+      grid.innerHTML = `<table class="table-wrap">
+        <thead><tr>
+          <th>SYMBOL</th><th>PRICE</th><th>24H%</th><th>VOLUME</th>
+          <th>FUNDING</th><th>OI</th><th>OI CHG</th>
+          <th>L/S RATIO</th><th>TAKER BUY</th><th>SIGNAL</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
       if (i + BATCH < activeCoins.length) await new Promise(r => setTimeout(r, 400));
     }
 
