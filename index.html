@@ -8,20 +8,20 @@
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
   :root {
-    --bg: #0a0c0f;
-    --bg2: #111318;
-    --bg3: #181c24;
-    --border: #1e2430;
-    --text: #c8d0e0;
-    --text-dim: #4a5568;
-    --text-muted: #2d3748;
-    --green: #00e676;
-    --red: #ff4444;
-    --orange: #ff9800;
-    --blue: #4fc3f7;
-    --yellow: #ffd600;
-    --purple: #ce93d8;
-    --accent: #00e5ff;
+    --bg: #020408;
+    --bg2: #0a0e14;
+    --bg3: #0f1520;
+    --border: #1a2535;
+    --text: #e8f4ff;
+    --text-dim: #5a7a9a;
+    --text-muted: #2a3f55;
+    --green: #00ff88;
+    --red: #ff2d55;
+    --orange: #ff9500;
+    --blue: #00cfff;
+    --yellow: #ffe600;
+    --purple: #bf5fff;
+    --accent: #ffe600;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,8 +40,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
+    border-bottom: 1px solid #1a2840;
+    background: #060c14;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -58,7 +58,8 @@
     font-size: 14px;
     font-weight: 600;
     color: var(--accent);
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(255,230,0,0.6), 0 0 24px rgba(255,230,0,0.2);
   }
 
   .timeframe-selector {
@@ -144,8 +145,8 @@
   .mbi-price {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
+    font-weight: 600;
+    color: #ffffff;
   }
 
   .mbi-change {
@@ -171,35 +172,41 @@
 
   .coin-card {
     background: var(--bg2);
-    border: 1px solid var(--border);
+    border: 1px solid #1a2840;
     border-radius: 6px;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
   }
 
-  .coin-card:hover { border-color: #2a3550; }
+  .coin-card:hover {
+    border-color: rgba(255,230,0,0.3);
+    box-shadow: 0 0 16px rgba(255,230,0,0.06);
+  }
 
   .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: var(--bg3);
-    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #0f1a2e 0%, #0a1220 100%);
+    border-bottom: 1px solid #1e3050;
   }
 
   .card-symbol {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--accent);
+    text-shadow: 0 0 8px rgba(255,230,0,0.4);
+    letter-spacing: 1px;
   }
 
   .card-price {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(255,255,255,0.15);
   }
 
   .card-change {
@@ -239,7 +246,8 @@
   .metric-value {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.3px;
   }
 
   .metric-sub {
@@ -274,10 +282,10 @@
     font-weight: 500;
   }
 
-  .badge-bullish { background: rgba(0,230,118,0.15); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
-  .badge-bearish { background: rgba(255,68,68,0.15); color: var(--red); border: 1px solid rgba(255,68,68,0.2); }
-  .badge-neutral { background: rgba(255,214,0,0.1); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
-  .badge-squeeze { background: rgba(206,147,216,0.15); color: var(--purple); border: 1px solid rgba(206,147,216,0.2); }
+  .badge-bullish { background: rgba(0,255,136,0.12); color: #00ff88; border: 1px solid rgba(0,255,136,0.35); text-shadow: 0 0 6px rgba(0,255,136,0.5); }
+  .badge-bearish { background: rgba(255,45,85,0.12); color: #ff2d55; border: 1px solid rgba(255,45,85,0.35); text-shadow: 0 0 6px rgba(255,45,85,0.5); }
+  .badge-neutral { background: rgba(255,230,0,0.08); color: #ffe600; border: 1px solid rgba(255,230,0,0.3); text-shadow: 0 0 6px rgba(255,230,0,0.4); }
+  .badge-squeeze { background: rgba(191,95,255,0.12); color: #bf5fff; border: 1px solid rgba(191,95,255,0.35); text-shadow: 0 0 6px rgba(191,95,255,0.5); }
 
   /* SECTION HEADER */
   .section-header {
@@ -291,9 +299,9 @@
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     font-weight: 600;
-    color: var(--text-dim);
+    color: #4a8abf;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
   }
 
   .section-line {
@@ -418,9 +426,9 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .pos { color: var(--green); }
-  .neg { color: var(--red); }
-  .neu { color: var(--yellow); }
+  .pos { color: var(--green); text-shadow: 0 0 8px rgba(0,255,136,0.4); }
+  .neg { color: var(--red); text-shadow: 0 0 8px rgba(255,45,85,0.4); }
+  .neu { color: var(--yellow); text-shadow: 0 0 8px rgba(255,230,0,0.3); }
 
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -543,10 +551,22 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
 }
 
-async function fetchJSON(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(r.status);
-  return r.json();
+async function fetchJSON(url, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const r = await fetch(url);
+      if (r.status === 429) {
+        // Rate limited – wait and retry
+        await new Promise(res => setTimeout(res, 1000 * (i + 1)));
+        continue;
+      }
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    } catch(e) {
+      if (i === retries) throw e;
+      await new Promise(res => setTimeout(res, 500));
+    }
+  }
 }
 
 async function getFundingRates() {
@@ -835,21 +855,26 @@ async function loadAll() {
     const coinData = {};
     const activeCoins = COINS.filter(c => tickers[c]);
 
-    await Promise.all(activeCoins.map(async (sym) => {
-      const [oi, lsRatio, takerRatio, oiChange] = await Promise.all([
-        getOI(sym),
-        getLSRatio(sym, currentTF),
-        getTakerRatio(sym),
-        getOIChange(sym)
-      ]);
-      coinData[sym] = { ticker: tickers[sym], funding: fundingMap[sym], oi, lsRatio, takerRatio, oiChange };
-    }));
+    // Load theo batch 3 coin, delay 300ms giữa các batch để tránh rate limit
+    const BATCH = 3;
+    for (let i = 0; i < activeCoins.length; i += BATCH) {
+      const batch = activeCoins.slice(i, i + BATCH);
+      await Promise.all(batch.map(async (sym) => {
+        const [oi, lsRatio, takerRatio, oiChange] = await Promise.all([
+          getOI(sym),
+          getLSRatio(sym, currentTF),
+          getTakerRatio(sym),
+          getOIChange(sym)
+        ]);
+        coinData[sym] = { ticker: tickers[sym], funding: fundingMap[sym], oi, lsRatio, takerRatio, oiChange };
+      }));
+      // Render từng batch ngay khi có data
+      const grid = document.getElementById('coinsGrid');
+      grid.innerHTML = activeCoins.map(c => coinData[c] ? renderCoinCard(c, coinData[c]) : `<div class="coin-card" style="opacity:0.3;min-height:180px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim)">${c} loading...</div>`).join('');
+      if (i + BATCH < activeCoins.length) await new Promise(r => setTimeout(r, 400));
+    }
 
     allData = { tickers, fundingMap, coinData };
-
-    // Render coin cards
-    const grid = document.getElementById('coinsGrid');
-    grid.innerHTML = activeCoins.map(c => renderCoinCard(c, coinData[c])).join('');
 
     // Render L/S ratio tab
     const lsData = {};
