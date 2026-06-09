@@ -591,23 +591,50 @@ async function getOI(symbol) {
 }
 
 async function getLSRatio(symbol, period) {
+  // Try multiple endpoints
+  const endpoints = [
+    `${BASE}/futures/data/globalLongShortAccountRatio?symbol=${symbol}USDT&period=${period}&limit=1`,
+    `${BASE}/futures/data/topLongShortAccountRatio?symbol=${symbol}USDT&period=${period}&limit=1`,
+    `${BASE}/futures/data/topLongShortPositionRatio?symbol=${symbol}USDT&period=${period}&limit=1`,
+  ];
+  for (const url of endpoints) {
+    try {
+      const data = await fetchJSON(url);
+      if (data && data.length > 0) {
+        const val = parseFloat(data[0].longShortRatio || data[0].longAccount / data[0].shortAccount);
+        if (!isNaN(val) && val > 0) return val;
+      }
+    } catch {}
+  }
+  return null;
+}
+
+// Taker Buy/Sell Ratio: takerBuyVol / totalVol theo TF hiện tại
+async function getTakerRatio(symbol) {
   try {
-    const data = await fetchJSON(`${BASE}/futures/data/globalLongShortAccountRatio?symbol=${symbol}USDT&period=${period}&limit=1`);
-    if (data && data.length > 0) return parseFloat(data[0].longShortRatio);
-    return null;
+    const limit = currentTF === '5m' ? 12 : currentTF === '15m' ? 8 : currentTF === '1h' ? 6 : 4;
+    const data = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${symbol}USDT&interval=${currentTF}&limit=${limit}`);
+    let totalVol = 0, takerBuyVol = 0;
+    data.forEach(k => {
+      totalVol    += parseFloat(k[5]);
+      takerBuyVol += parseFloat(k[9]);
+    });
+    if (totalVol === 0) return null;
+    const ratio = takerBuyVol / totalVol;
+    return { ratio, buyPct: (ratio * 100).toFixed(1), sellPct: ((1 - ratio) * 100).toFixed(1) };
   } catch { return null; }
 }
 
-async function getLiquidations(symbol) {
+// OI Change %: so sánh OI hiện tại vs 4 chu kỳ trước
+async function getOIChange(symbol) {
   try {
-    const data = await fetchJSON(`${BASE}/fapi/v1/forceOrders?symbol=${symbol}USDT&limit=20`);
-    let longLiq = 0, shortLiq = 0;
-    data.forEach(d => {
-      if (d.side === 'SELL') longLiq += parseFloat(d.origQty) * parseFloat(d.price);
-      else shortLiq += parseFloat(d.origQty) * parseFloat(d.price);
-    });
-    return { longLiq, shortLiq };
-  } catch { return { longLiq: 0, shortLiq: 0 }; }
+    const data = await fetchJSON(`${BASE}/futures/data/openInterestHist?symbol=${symbol}USDT&period=${currentTF}&limit=5`);
+    if (!data || data.length < 2) return null;
+    const latest = parseFloat(data[data.length - 1].sumOpenInterest);
+    const prev   = parseFloat(data[0].sumOpenInterest);
+    if (prev === 0) return null;
+    return ((latest - prev) / prev) * 100;
+  } catch { return null; }
 }
 
 function formatNum(n) {
@@ -631,6 +658,8 @@ function getSignals(funding, lsRatio, oiChange) {
   if (funding > 0.05) badges.push({cls: 'badge-bearish', text: 'OVERHEATED'});
   if (lsRatio && lsRatio > 1.5) badges.push({cls: 'badge-bullish', text: 'LONG DOM'});
   if (lsRatio && lsRatio < 0.7) badges.push({cls: 'badge-bearish', text: 'SHORT DOM'});
+  if (oiChange !== null && oiChange > 3) badges.push({cls: 'badge-bullish', text: 'OI↑'});
+  if (oiChange !== null && oiChange < -3) badges.push({cls: 'badge-bearish', text: 'OI↓'});
   if (funding >= -0.01 && funding <= 0.01) badges.push({cls: 'badge-neutral', text: 'NEUTRAL'});
   if (badges.length === 0) badges.push({cls: 'badge-neutral', text: 'WATCH'});
   return badges;
@@ -661,7 +690,7 @@ function renderMarketBar(tickers) {
 }
 
 function renderCoinCard(sym, data) {
-  const { ticker, funding, oi, lsRatio, liq } = data;
+  const { ticker, funding, oi, lsRatio, takerRatio, oiChange } = data;
   if (!ticker) return '';
 
   const fVal = funding?.funding ?? 0;
@@ -669,13 +698,22 @@ function renderCoinCard(sym, data) {
   const fSign = fVal >= 0 ? '+' : '';
   const chgClass = ticker.change >= 0 ? 'pos' : 'neg';
   const chgSign = ticker.change >= 0 ? '+' : '';
-  const signals = getSignals(fVal * 100, lsRatio, null);
+  const signals = getSignals(fVal * 100, lsRatio, oiChange);
 
   const lsDisplay = lsRatio ? lsRatio.toFixed(3) : '–';
   const lsPct = lsRatio ? Math.min(((lsRatio / (1 + lsRatio)) * 100), 100).toFixed(1) : '50';
 
-  const totalLiq = (liq?.longLiq || 0) + (liq?.shortLiq || 0);
-  const longPct = totalLiq > 0 ? ((liq.longLiq / totalLiq) * 100).toFixed(0) : 50;
+  // Taker ratio
+  const trBuy = takerRatio ? takerRatio.buyPct : '–';
+  const trSell = takerRatio ? takerRatio.sellPct : '–';
+  const trRatio = takerRatio ? takerRatio.ratio : 0.5;
+  const trClass = trRatio > 0.55 ? 'pos' : trRatio < 0.45 ? 'neg' : 'neu';
+
+  // OI Change
+  const oiChgVal = oiChange !== null && oiChange !== undefined ? oiChange : null;
+  const oiChgClass = oiChgVal > 1 ? 'pos' : oiChgVal < -1 ? 'neg' : 'neu';
+  const oiChgSign = oiChgVal > 0 ? '+' : '';
+  const oiChgDisplay = oiChgVal !== null ? `${oiChgSign}${oiChgVal.toFixed(2)}%` : '–';
 
   return `<div class="coin-card">
     <div class="card-header">
@@ -694,20 +732,28 @@ function renderCoinCard(sym, data) {
         <div class="metric-value ${fClass}">${fSign}${(fVal * 100).toFixed(4)}%</div>
         <div class="metric-sub">${fVal > 0 ? 'Long trả phí' : 'Short trả phí'}</div>
       </div>
-      <div class="metric">
-        <div class="metric-label">Open Interest</div>
-        <div class="metric-value">${formatNum(oi)}</div>
-        <div class="metric-sub">contracts</div>
-      </div>
+
       <div class="metric">
         <div class="metric-label">L/S Ratio</div>
         <div class="metric-value ${lsRatio > 1 ? 'pos' : lsRatio < 1 ? 'neg' : ''}">${lsDisplay}</div>
         <div class="metric-sub">Long ${lsPct}%</div>
       </div>
       <div class="metric">
-        <div class="metric-label">24h Liq (USD)</div>
-        <div class="metric-value">${formatNum(totalLiq)}</div>
-        <div class="metric-sub"><span class="pos">L $${formatNum(liq?.longLiq)}</span> / <span class="neg">S $${formatNum(liq?.shortLiq)}</span></div>
+        <div class="metric-label">Taker Buy Ratio</div>
+        <div class="metric-value ${trClass}">${trBuy}%</div>
+        <div class="metric-sub"><span class="pos">B ${trBuy}%</span> / <span class="neg">S ${trSell}%</span></div>
+      </div>
+    </div>
+    <div class="metrics-grid" style="border-top:1px solid var(--border)">
+      <div class="metric" style="border-bottom:none">
+        <div class="metric-label">OI Change (${currentTF}×4)</div>
+        <div class="metric-value ${oiChgClass}">${oiChgDisplay}</div>
+        <div class="metric-sub">vs 4 nến trước</div>
+      </div>
+      <div class="metric" style="border-bottom:none">
+        <div class="metric-label">OI Absolute</div>
+        <div class="metric-value">${formatNum(oi)}</div>
+        <div class="metric-sub">contracts</div>
       </div>
     </div>
     <div class="signal-bar">
@@ -790,12 +836,13 @@ async function loadAll() {
     const activeCoins = COINS.filter(c => tickers[c]);
 
     await Promise.all(activeCoins.map(async (sym) => {
-      const [oi, lsRatio, liq] = await Promise.all([
+      const [oi, lsRatio, takerRatio, oiChange] = await Promise.all([
         getOI(sym),
         getLSRatio(sym, currentTF),
-        getLiquidations(sym)
+        getTakerRatio(sym),
+        getOIChange(sym)
       ]);
-      coinData[sym] = { ticker: tickers[sym], funding: fundingMap[sym], oi, lsRatio, liq };
+      coinData[sym] = { ticker: tickers[sym], funding: fundingMap[sym], oi, lsRatio, takerRatio, oiChange };
     }));
 
     allData = { tickers, fundingMap, coinData };
