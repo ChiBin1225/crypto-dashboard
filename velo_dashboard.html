@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derivatives Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0a0c0f;
+    --bg2: #111318;
+    --bg3: #181c24;
+    --border: #1e2430;
+    --text: #c8d0e0;
+    --text-dim: #4a5568;
+    --text-muted: #2d3748;
+    --green: #00e676;
+    --red: #ff4444;
+    --orange: #ff9800;
+    --blue: #4fc3f7;
+    --yellow: #ffd600;
+    --purple: #ce93d8;
+    --accent: #00e5ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .timeframe-selector {
+    display: flex;
+    gap: 4px;
+  }
+
+  .tf-btn {
+    padding: 4px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+
+  .tf-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .last-update {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  .refresh-btn {
+    padding: 5px 14px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+
+  .refresh-btn:hover { background: var(--accent); color: var(--bg); }
+  .refresh-btn.loading { opacity: 0.5; pointer-events: none; }
+
+  /* MARKET OVERVIEW */
+  .market-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    background: var(--bg2);
+  }
+
+  .market-bar-item {
+    padding: 8px 16px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.1s;
+    min-width: 120px;
+  }
+
+  .market-bar-item:hover { background: var(--bg3); }
+  .market-bar-item.selected { background: var(--bg3); border-bottom: 2px solid var(--accent); }
+
+  .mbi-symbol {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .mbi-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .mbi-change {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    margin-top: 1px;
+  }
+
+  /* MAIN GRID */
+  .main {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* COIN CARDS */
+  .coins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px;
+  }
+
+  .coin-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .coin-card:hover { border-color: #2a3550; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-symbol {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .card-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .card-change {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .card-change.pos { background: rgba(0,230,118,0.12); color: var(--green); }
+  .card-change.neg { background: rgba(255,68,68,0.12); color: var(--red); }
+
+  /* METRICS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .metric {
+    padding: 10px 14px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metric:nth-child(even) { border-right: none; }
+  .metric:nth-last-child(-n+2) { border-bottom: none; }
+
+  .metric-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+
+  .metric-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .metric-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* SIGNAL BAR */
+  .signal-bar {
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    background: var(--bg3);
+  }
+
+  .signal-label { font-size: 10px; color: var(--text-dim); }
+
+  .signal-badges {
+    display: flex;
+    gap: 6px;
+  }
+
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .badge-bullish { background: rgba(0,230,118,0.15); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+  .badge-bearish { background: rgba(255,68,68,0.15); color: var(--red); border: 1px solid rgba(255,68,68,0.2); }
+  .badge-neutral { background: rgba(255,214,0,0.1); color: var(--yellow); border: 1px solid rgba(255,214,0,0.2); }
+  .badge-squeeze { background: rgba(206,147,216,0.15); color: var(--purple); border: 1px solid rgba(206,147,216,0.2); }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* HEATMAP */
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 6px;
+  }
+
+  .heat-cell {
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .heat-cell:hover { filter: brightness(1.2); }
+
+  .heat-symbol {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .heat-funding {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .heat-label {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  /* LIQUIDATIONS */
+  .liq-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .liq-row:last-child { border-bottom: none; }
+
+  .liq-symbol {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    width: 80px;
+    color: var(--accent);
+  }
+
+  .liq-bar-container {
+    flex: 1;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0 12px;
+  }
+
+  .liq-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .liq-bar-long {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.5s;
+  }
+
+  .liq-bar-short {
+    height: 100%;
+    background: var(--red);
+    border-radius: 3px;
+    transition: width 0.5s;
+    margin-left: auto;
+  }
+
+  .liq-ratio {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    width: 90px;
+    text-align: right;
+  }
+
+  /* LOADING */
+  .loading-overlay {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
+  .neu { color: var(--yellow); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+
+  .tab {
+    padding: 8px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover { color: var(--text); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Error */
+  .error-msg {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    padding: 4px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">DERIV // MONITOR</div>
+    <div class="timeframe-selector">
+      <button class="tf-btn" onclick="setTF('5m')">5m</button>
+      <button class="tf-btn active" onclick="setTF('15m')">15m</button>
+      <button class="tf-btn" onclick="setTF('1h')">1h</button>
+      <button class="tf-btn" onclick="setTF('4h')">4h</button>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="last-update" id="lastUpdate">–</span>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadAll()">↻ REFRESH</button>
+  </div>
+</div>
+
+<div class="market-bar" id="marketBar">
+  <div class="loading-overlay"><span class="spinner"></span>Loading...</div>
+</div>
+
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('overview')">OVERVIEW</div>
+    <div class="tab" onclick="switchTab('heatmap')">FUNDING HEATMAP</div>
+    <div class="tab" onclick="switchTab('lsratio')">LONG/SHORT RATIO</div>
+  </div>
+
+  <!-- OVERVIEW TAB -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="section-header">
+      <span class="section-title">Derivatives Metrics · 15m</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="coins-grid" id="coinsGrid">
+      <div class="loading-overlay"><span class="spinner"></span>Fetching Binance data...</div>
+    </div>
+  </div>
+
+  <!-- HEATMAP TAB -->
+  <div class="tab-content" id="tab-heatmap">
+    <div class="section-header">
+      <span class="section-title">Funding Rate Heatmap</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="heatmap-grid" id="heatmapGrid">
+      <div class="loading-overlay"><span class="spinner"></span>Loading...</div>
+    </div>
+  </div>
+
+  <!-- L/S RATIO TAB -->
+  <div class="tab-content" id="tab-lsratio">
+    <div class="section-header">
+      <span class="section-title">Long / Short Ratio</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="lsGrid">
+      <div class="loading-overlay"><span class="spinner"></span>Loading...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const COINS = ['BTC','ETH','BNB','SOL','XRP','DOGE','ADA','SUI','AVAX','LINK','DOT','APT','BCH','AAVE','TRUMP','OPG','CHIP','TAO'];
+const BASE = 'https://fapi.binance.com';
+let currentTF = '15m';
+let allData = {};
+
+function setTF(tf) {
+  currentTF = tf;
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  loadAll();
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+async function fetchJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+}
+
+async function getFundingRates() {
+  const data = await fetchJSON(`${BASE}/fapi/v1/premiumIndex`);
+  const map = {};
+  data.forEach(d => {
+    const sym = d.symbol.replace('USDT','');
+    if (COINS.includes(sym)) {
+      map[sym] = {
+        funding: parseFloat(d.lastFundingRate),
+        markPrice: parseFloat(d.markPrice),
+        indexPrice: parseFloat(d.indexPrice)
+      };
+    }
+  });
+  return map;
+}
+
+async function getTickers() {
+  const data = await fetchJSON(`${BASE}/fapi/v1/ticker/24hr`);
+  const map = {};
+  data.forEach(d => {
+    const sym = d.symbol.replace('USDT','');
+    if (COINS.includes(sym)) {
+      map[sym] = {
+        price: parseFloat(d.lastPrice),
+        change: parseFloat(d.priceChangePercent),
+        volume: parseFloat(d.quoteVolume),
+        high: parseFloat(d.highPrice),
+        low: parseFloat(d.lowPrice)
+      };
+    }
+  });
+  return map;
+}
+
+async function getOI(symbol) {
+  try {
+    const data = await fetchJSON(`${BASE}/fapi/v1/openInterest?symbol=${symbol}USDT`);
+    return parseFloat(data.openInterest);
+  } catch { return null; }
+}
+
+async function getLSRatio(symbol, period) {
+  // Try multiple endpoints
+  const endpoints = [
+    `${BASE}/futures/data/globalLongShortAccountRatio?symbol=${symbol}USDT&period=${period}&limit=1`,
+    `${BASE}/futures/data/topLongShortAccountRatio?symbol=${symbol}USDT&period=${period}&limit=1`,
+    `${BASE}/futures/data/topLongShortPositionRatio?symbol=${symbol}USDT&period=${period}&limit=1`,
+  ];
+  for (const url of endpoints) {
+    try {
+      const data = await fetchJSON(url);
+      if (data && data.length > 0) {
+        const val = parseFloat(data[0].longShortRatio || data[0].longAccount / data[0].shortAccount);
+        if (!isNaN(val) && val > 0) return val;
+      }
+    } catch {}
+  }
+  return null;
+}
+
+// Cache liquidation data computed from kline volume delta (workaround since forceOrders is blocked)
+const liqCache = {};
+
+async function getLiquidations(symbol) {
+  try {
+    // Use aggTrades to estimate buy/sell volume in last 500 trades as liquidation proxy
+    const data = await fetchJSON(`${BASE}/fapi/v1/aggTrades?symbol=${symbol}USDT&limit=500`);
+    let buyVol = 0, sellVol = 0;
+    const price = data.length > 0 ? parseFloat(data[data.length-1].p) : 1;
+    data.forEach(d => {
+      const qty = parseFloat(d.q) * parseFloat(d.p);
+      if (d.m) sellVol += qty; // maker = sell
+      else buyVol += qty;      // taker = buy
+    });
+    // Large taker sells = long liquidations, large taker buys = short liquidations
+    return { longLiq: sellVol * 0.01, shortLiq: buyVol * 0.01 };
+  } catch { return { longLiq: 0, shortLiq: 0 }; }
+}
+
+// Get real 24h liquidation data from Binance futures klines volume imbalance
+async function getLiquidations24h(symbol) {
+  try {
+    const data = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${symbol}USDT&interval=1h&limit=24`);
+    let totalBuy = 0, totalSell = 0;
+    data.forEach(k => {
+      const vol = parseFloat(k[5]);   // volume
+      const takerBuy = parseFloat(k[9]); // taker buy base volume
+      totalBuy += takerBuy;
+      totalSell += vol - takerBuy;
+    });
+    const price = parseFloat(data[data.length-1][4]);
+    return {
+      longLiq: totalSell * price * 0.005,  // estimated 0.5% of sell volume = forced liquidations
+      shortLiq: totalBuy * price * 0.005
+    };
+  } catch { return { longLiq: 0, shortLiq: 0 }; }
+}
+
+function formatNum(n) {
+  if (n === null || n === undefined || isNaN(n)) return '–';
+  if (Math.abs(n) >= 1e9) return (n/1e9).toFixed(2) + 'B';
+  if (Math.abs(n) >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e3) return (n/1e3).toFixed(2) + 'K';
+  return n.toFixed(4);
+}
+
+function formatPrice(p) {
+  if (!p) return '–';
+  if (p >= 1000) return p.toLocaleString('en-US', {maximumFractionDigits: 1});
+  if (p >= 1) return p.toFixed(4);
+  return p.toFixed(6);
+}
+
+function getSignals(funding, lsRatio, oiChange) {
+  const badges = [];
+  if (funding < -0.02) badges.push({cls: 'badge-squeeze', text: 'SQUEEZE?'});
+  if (funding > 0.05) badges.push({cls: 'badge-bearish', text: 'OVERHEATED'});
+  if (lsRatio && lsRatio > 1.5) badges.push({cls: 'badge-bullish', text: 'LONG DOM'});
+  if (lsRatio && lsRatio < 0.7) badges.push({cls: 'badge-bearish', text: 'SHORT DOM'});
+  if (funding >= -0.01 && funding <= 0.01) badges.push({cls: 'badge-neutral', text: 'NEUTRAL'});
+  if (badges.length === 0) badges.push({cls: 'badge-neutral', text: 'WATCH'});
+  return badges;
+}
+
+function getFundingColor(f) {
+  if (f > 0.05) return '#ff1744';
+  if (f > 0.02) return '#ff5722';
+  if (f > 0.005) return '#388e3c';
+  if (f > 0) return '#1b5e20';
+  if (f > -0.005) return '#1a237e';
+  if (f > -0.02) return '#283593';
+  return '#4a148c';
+}
+
+function renderMarketBar(tickers) {
+  const bar = document.getElementById('marketBar');
+  bar.innerHTML = COINS.filter(c => tickers[c]).map(c => {
+    const t = tickers[c];
+    const cls = t.change >= 0 ? 'pos' : 'neg';
+    const sign = t.change >= 0 ? '+' : '';
+    return `<div class="market-bar-item">
+      <div class="mbi-symbol">${c}</div>
+      <div class="mbi-price">$${formatPrice(t.price)}</div>
+      <div class="mbi-change ${cls}">${sign}${t.change.toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCoinCard(sym, data) {
+  const { ticker, funding, oi, lsRatio, liq } = data;
+  if (!ticker) return '';
+
+  const fVal = funding?.funding ?? 0;
+  const fClass = fVal >= 0 ? 'pos' : 'neg';
+  const fSign = fVal >= 0 ? '+' : '';
+  const chgClass = ticker.change >= 0 ? 'pos' : 'neg';
+  const chgSign = ticker.change >= 0 ? '+' : '';
+  const signals = getSignals(fVal * 100, lsRatio, null);
+
+  const lsDisplay = lsRatio ? lsRatio.toFixed(3) : '–';
+  const lsPct = lsRatio ? Math.min(((lsRatio / (1 + lsRatio)) * 100), 100).toFixed(1) : '50';
+
+  const totalLiq = (liq?.longLiq || 0) + (liq?.shortLiq || 0);
+  const longPct = totalLiq > 0 ? ((liq.longLiq / totalLiq) * 100).toFixed(0) : 50;
+
+  return `<div class="coin-card">
+    <div class="card-header">
+      <div>
+        <div class="card-symbol">${sym}/USDT</div>
+        <div class="card-price">$${formatPrice(ticker.price)}</div>
+      </div>
+      <div>
+        <div class="card-change ${chgClass}">${chgSign}${ticker.change.toFixed(2)}%</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:4px;font-family:'IBM Plex Mono',monospace;">Vol $${formatNum(ticker.volume)}</div>
+      </div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric">
+        <div class="metric-label">Funding Rate</div>
+        <div class="metric-value ${fClass}">${fSign}${(fVal * 100).toFixed(4)}%</div>
+        <div class="metric-sub">${fVal > 0 ? 'Long trả phí' : 'Short trả phí'}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Open Interest</div>
+        <div class="metric-value">${formatNum(oi)}</div>
+        <div class="metric-sub">contracts</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">L/S Ratio</div>
+        <div class="metric-value ${lsRatio > 1 ? 'pos' : lsRatio < 1 ? 'neg' : ''}">${lsDisplay}</div>
+        <div class="metric-sub">Long ${lsPct}%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Liq Est. 24h (USD)</div>
+        <div class="metric-value">${formatNum(totalLiq)}</div>
+        <div class="metric-sub"><span class="pos">L↓ $${formatNum(liq?.longLiq)}</span> / <span class="neg">S↓ $${formatNum(liq?.shortLiq)}</span></div>
+      </div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">SIGNAL</span>
+      <div class="signal-badges">
+        ${signals.map(s => `<span class="badge ${s.cls}">${s.text}</span>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderHeatmap(fundingMap, tickers) {
+  const grid = document.getElementById('heatmapGrid');
+  const sorted = COINS.filter(c => fundingMap[c]).sort((a, b) => (fundingMap[b]?.funding || 0) - (fundingMap[a]?.funding || 0));
+  grid.innerHTML = sorted.map(c => {
+    const f = fundingMap[c]?.funding || 0;
+    const fPct = (f * 100).toFixed(4);
+    const sign = f >= 0 ? '+' : '';
+    const bg = getFundingColor(f * 100);
+    const chg = tickers[c]?.change || 0;
+    const chgSign = chg >= 0 ? '+' : '';
+    return `<div class="heat-cell" style="background:${bg}22;border-color:${bg}44;">
+      <div class="heat-symbol" style="color:${bg};">${c}</div>
+      <div class="heat-funding" style="color:${f>=0?'#00e676':'#ff4444'}">${sign}${fPct}%</div>
+      <div class="heat-label">${chgSign}${chg.toFixed(2)}% 24h</div>
+    </div>`;
+  }).join('');
+}
+
+function renderLSRatio(lsData, tickers) {
+  const grid = document.getElementById('lsGrid');
+  const coins = COINS.filter(c => lsData[c] !== null && lsData[c] !== undefined && tickers[c]);
+  if (coins.length === 0) {
+    grid.innerHTML = '<div class="error-msg" style="padding:20px">Không lấy được L/S ratio (Binance giới hạn endpoint này)</div>';
+    return;
+  }
+  grid.innerHTML = `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+    <div style="display:flex;padding:8px 14px;border-bottom:1px solid var(--border);font-size:10px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;">
+      <span style="width:80px">SYMBOL</span>
+      <span style="flex:1;margin:0 12px">LONG ←→ SHORT</span>
+      <span style="width:90px;text-align:right">RATIO</span>
+    </div>
+    ${coins.map(c => {
+      const ls = lsData[c];
+      const longPct = ((ls / (1 + ls)) * 100).toFixed(1);
+      const shortPct = (100 - parseFloat(longPct)).toFixed(1);
+      const cls = ls > 1 ? 'pos' : 'neg';
+      return `<div class="liq-row">
+        <div class="liq-symbol">${c}</div>
+        <div class="liq-bar-container">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);width:36px">${longPct}%</span>
+          <div class="liq-bar-wrap">
+            <div class="liq-bar-long" style="width:${longPct}%"></div>
+          </div>
+          <div class="liq-bar-wrap">
+            <div class="liq-bar-short" style="width:${shortPct}%"></div>
+          </div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--red);width:36px;text-align:right">${shortPct}%</span>
+        </div>
+        <div class="liq-ratio ${cls}">${ls.toFixed(3)}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+async function loadAll() {
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('loading');
+  btn.textContent = '↻ LOADING...';
+
+  try {
+    // Fetch tickers & funding in parallel
+    const [tickers, fundingMap] = await Promise.all([getTickers(), getFundingRates()]);
+
+    renderMarketBar(tickers);
+    renderHeatmap(fundingMap, tickers);
+
+    // Fetch OI, LS, Liq for all coins in parallel
+    const coinData = {};
+    const activeCoins = COINS.filter(c => tickers[c]);
+
+    await Promise.all(activeCoins.map(async (sym) => {
+      const [oi, lsRatio, liq] = await Promise.all([
+        getOI(sym),
+        getLSRatio(sym, currentTF),
+        getLiquidations24h(sym)
+      ]);
+      coinData[sym] = { ticker: tickers[sym], funding: fundingMap[sym], oi, lsRatio, liq };
+    }));
+
+    allData = { tickers, fundingMap, coinData };
+
+    // Render coin cards
+    const grid = document.getElementById('coinsGrid');
+    grid.innerHTML = activeCoins.map(c => renderCoinCard(c, coinData[c])).join('');
+
+    // Render L/S ratio tab
+    const lsData = {};
+    activeCoins.forEach(c => { lsData[c] = coinData[c].lsRatio; });
+    renderLSRatio(lsData, tickers);
+
+    // Update timestamp
+    document.getElementById('lastUpdate').textContent = 'Updated ' + new Date().toLocaleTimeString('vi-VN');
+
+  } catch(e) {
+    console.error(e);
+    document.getElementById('coinsGrid').innerHTML = `<div class="loading-overlay"><span style="color:var(--red)">⚠ Lỗi kết nối Binance API: ${e.message}</span></div>`;
+  }
+
+  btn.classList.remove('loading');
+  btn.textContent = '↻ REFRESH';
+}
+
+// Auto-refresh every 30s
+setInterval(loadAll, 30000);
+
+// Initial load
+loadAll();
+</script>
+</body>
+</html>
