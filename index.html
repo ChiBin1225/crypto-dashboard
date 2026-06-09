@@ -19,108 +19,85 @@
   --yellow: #ffe600;
   --blue:   #00cfff;
   --purple: #bf5fff;
+  --orange: #ff9500;
   --accent: #ffe600;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;min-height:100vh;overflow-x:hidden;}
 
-/* ── HEADER ── */
-.header{display:flex;align-items:center;gap:16px;padding:10px 18px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.header{display:flex;align-items:center;gap:14px;padding:9px 16px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:200;flex-wrap:wrap;}
 .logo{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:3px;text-shadow:0 0 14px rgba(255,230,0,.55);white-space:nowrap;}
-.sep{width:1px;height:24px;background:var(--border2);flex-shrink:0;}
+.sep{width:1px;height:22px;background:var(--border2);flex-shrink:0;}
 
-/* timeframe */
 .tf-group{display:flex;gap:3px;}
-.tf-btn{padding:4px 9px;background:transparent;border:1px solid var(--border2);color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;}
-.tf-btn:hover{color:var(--text);border-color:#2a4060;}
+.tf-btn{padding:3px 8px;background:transparent;border:1px solid var(--border2);color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;}
+.tf-btn:hover{color:var(--text);}
 .tf-btn.active{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700;}
 
-/* column toggles */
-.col-toggle-wrap{display:flex;gap:4px;flex-wrap:wrap;}
-.col-tog{padding:3px 8px;background:transparent;border:1px solid var(--border2);color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;user-select:none;}
-.col-tog.on{background:rgba(0,207,255,.12);border-color:var(--blue);color:var(--blue);}
+.col-toggle-wrap{display:flex;gap:3px;flex-wrap:wrap;}
+.col-tog{padding:3px 7px;background:transparent;border:1px solid var(--border2);color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;user-select:none;}
+.col-tog.on{background:rgba(0,207,255,.1);border-color:var(--blue);color:var(--blue);}
 
-/* search + filter */
-.search-box{padding:5px 10px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11px;border-radius:3px;width:160px;outline:none;}
+.search-box{padding:4px 9px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11px;border-radius:3px;width:150px;outline:none;}
 .search-box:focus{border-color:var(--accent);}
-.filter-select{padding:5px 8px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:10px;border-radius:3px;outline:none;cursor:pointer;}
+.filter-select{padding:4px 7px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:10px;border-radius:3px;outline:none;cursor:pointer;}
 
-/* stats bar */
-.stats-bar{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;background:var(--bg2);}
-.stat-cell{padding:7px 16px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+.stats-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;background:var(--bg2);}
+.stat-cell{padding:6px 14px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
 .stat-label{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;}
 .stat-val{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--text);margin-top:1px;}
 
-/* refresh */
-.refresh-btn{padding:5px 13px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;margin-left:auto;}
+.refresh-btn{padding:4px 12px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;margin-left:auto;}
 .refresh-btn:hover{background:var(--accent);color:#000;}
-.refresh-btn.loading{opacity:.45;pointer-events:none;}
+.refresh-btn.loading{opacity:.4;pointer-events:none;}
 .last-upd{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);white-space:nowrap;}
 
-/* ── TABLE ── */
-.table-container{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 130px);}
+/* TABLE */
+.table-container{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 120px);}
 table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;}
 thead{position:sticky;top:0;z-index:100;}
-thead th{
-  padding:9px 12px;
-  font-size:10px;font-weight:600;color:var(--dim);
-  text-transform:uppercase;letter-spacing:1px;
-  background:#04090f;
-  border-bottom:2px solid var(--border2);
-  border-right:1px solid var(--border);
-  white-space:nowrap;cursor:pointer;user-select:none;
-  transition:color .15s;
-}
+thead th{padding:8px 10px;font-size:10px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;background:#03070e;border-bottom:2px solid var(--border2);border-right:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;}
 thead th:hover{color:var(--accent);}
 thead th.sort-asc::after{content:' ↑';color:var(--accent);}
 thead th.sort-desc::after{content:' ↓';color:var(--accent);}
 thead th:last-child{border-right:none;}
-
-tbody tr{border-bottom:1px solid #080f18;transition:background .1s;}
+tbody tr{border-bottom:1px solid #070e18;transition:background .1s;}
 tbody tr:hover{background:#0a1828;}
-tbody tr.loading-row{opacity:.25;}
-tbody td{
-  padding:8px 12px;
-  font-size:12px;
-  border-right:1px solid #070e18;
-  vertical-align:middle;
-  white-space:nowrap;
-}
+tbody td{padding:7px 10px;font-size:12px;border-right:1px solid #060d18;vertical-align:middle;white-space:nowrap;}
 tbody td:last-child{border-right:none;}
 
-/* cell types */
+/* CELLS */
 .c-sym{font-size:12px;font-weight:700;color:var(--accent);text-shadow:0 0 8px rgba(255,230,0,.3);letter-spacing:.8px;}
 .c-price{font-size:13px;font-weight:700;color:#fff;}
-.c-pos{color:var(--green);text-shadow:0 0 6px rgba(0,255,136,.35);}
-.c-neg{color:var(--red);text-shadow:0 0 6px rgba(255,45,85,.35);}
+.c-pos{color:var(--green);text-shadow:0 0 5px rgba(0,255,136,.3);}
+.c-neg{color:var(--red);text-shadow:0 0 5px rgba(255,45,85,.3);}
 .c-neu{color:var(--yellow);}
 .c-dim{color:var(--dim);font-size:11px;}
-.chg-badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600;}
+.chg-badge{display:inline-block;padding:2px 5px;border-radius:3px;font-size:11px;font-weight:600;}
 .chg-badge.pos{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);}
 .chg-badge.neg{background:rgba(255,45,85,.1);color:var(--red);border:1px solid rgba(255,45,85,.2);}
 
-/* mini bar */
-.mini-bar-wrap{display:flex;align-items:center;gap:5px;}
-.mini-track{width:55px;height:4px;background:rgba(255,45,85,.2);border-radius:2px;overflow:hidden;flex-shrink:0;}
-.mini-fill-g{height:100%;background:var(--green);border-radius:2px;}
-.mini-fill-b{height:100%;background:var(--blue);border-radius:2px;}
+/* SPARKLINE CANVAS */
+.spark-wrap{position:relative;width:120px;height:36px;display:inline-block;}
+.spark-wrap canvas{display:block;}
+.spark-val{position:absolute;bottom:0;right:0;font-size:9px;font-family:'IBM Plex Mono',monospace;}
 
-/* signal badges */
+/* CB PREMIUM */
+.cb-val{font-size:12px;font-weight:600;}
+
+/* SIGNAL */
 .sig-wrap{display:flex;gap:3px;flex-wrap:wrap;}
-.badge{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 6px;border-radius:2px;font-weight:600;white-space:nowrap;}
-.b-bull{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.3);text-shadow:0 0 5px rgba(0,255,136,.4);}
-.b-bear{background:rgba(255,45,85,.1);color:var(--red);border:1px solid rgba(255,45,85,.3);text-shadow:0 0 5px rgba(255,45,85,.4);}
-.b-neu{background:rgba(255,230,0,.07);color:var(--yellow);border:1px solid rgba(255,230,0,.25);text-shadow:0 0 5px rgba(255,230,0,.35);}
-.b-sq{background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.3);text-shadow:0 0 5px rgba(191,95,255,.4);}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 5px;border-radius:2px;font-weight:600;white-space:nowrap;}
+.b-bull{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.3);}
+.b-bear{background:rgba(255,45,85,.1);color:var(--red);border:1px solid rgba(255,45,85,.3);}
+.b-neu{background:rgba(255,230,0,.07);color:var(--yellow);border:1px solid rgba(255,230,0,.25);}
+.b-sq{background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.3);}
 
-/* col hidden */
-.col-hidden{display:none;}
+.col-hidden{display:none!important;}
 
-/* loading */
 .loading-full{display:flex;align-items:center;justify-content:center;padding:60px;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);}
 .spinner{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
@@ -132,8 +109,7 @@ tbody td:last-child{border-right:none;}
   <div class="logo">DERIV // MONITOR</div>
   <div class="sep"></div>
 
-  <!-- Timeframe -->
-  <div class="tf-group" id="tfGroup">
+  <div class="tf-group">
     <button class="tf-btn" onclick="setTF('1m',this)">1m</button>
     <button class="tf-btn" onclick="setTF('3m',this)">3m</button>
     <button class="tf-btn active" onclick="setTF('15m',this)">15m</button>
@@ -147,102 +123,101 @@ tbody td:last-child{border-right:none;}
 
   <div class="sep"></div>
 
-  <!-- Column toggles -->
   <div class="col-toggle-wrap">
-    <span style="font-size:9px;color:var(--dim);align-self:center;margin-right:2px;text-transform:uppercase;letter-spacing:.8px">Cột:</span>
-    <button class="col-tog on" data-col="price"    onclick="toggleCol(this)">Giá</button>
-    <button class="col-tog on" data-col="chg24"    onclick="toggleCol(this)">24h%</button>
-    <button class="col-tog on" data-col="vol24"    onclick="toggleCol(this)">Volume</button>
-    <button class="col-tog on" data-col="volchg"   onclick="toggleCol(this)">Vol Chg%</button>
-    <button class="col-tog on" data-col="mcap"     onclick="toggleCol(this)">Mkt Cap</button>
-    <button class="col-tog on" data-col="funding"  onclick="toggleCol(this)">Funding</button>
-    <button class="col-tog on" data-col="oi"       onclick="toggleCol(this)">OI</button>
-    <button class="col-tog on" data-col="oichg"    onclick="toggleCol(this)">OI Chg%</button>
-    <button class="col-tog on" data-col="ls"       onclick="toggleCol(this)">L/S</button>
-    <button class="col-tog on" data-col="taker"    onclick="toggleCol(this)">Taker</button>
-    <button class="col-tog on" data-col="high52w"  onclick="toggleCol(this)">H/L</button>
-    <button class="col-tog on" data-col="signal"   onclick="toggleCol(this)">Signal</button>
+    <span style="font-size:9px;color:var(--dim);align-self:center;margin-right:2px;letter-spacing:.8px">CỘT:</span>
+    <button class="col-tog on" data-col="price"   onclick="toggleCol(this)">Giá</button>
+    <button class="col-tog on" data-col="chg24"   onclick="toggleCol(this)">24h%</button>
+    <button class="col-tog on" data-col="vol24"   onclick="toggleCol(this)">Volume</button>
+    <button class="col-tog on" data-col="volchg"  onclick="toggleCol(this)">Vol Chg%</button>
+    <button class="col-tog on" data-col="mcap"    onclick="toggleCol(this)">Mkt Cap</button>
+    <button class="col-tog on" data-col="funding" onclick="toggleCol(this)">Funding</button>
+    <button class="col-tog on" data-col="oi"      onclick="toggleCol(this)">OI</button>
+    <button class="col-tog on" data-col="oipct"   onclick="toggleCol(this)">OI%</button>
+    <button class="col-tog on" data-col="cvdspot" onclick="toggleCol(this)">CVD Spot</button>
+    <button class="col-tog on" data-col="cvdfut"  onclick="toggleCol(this)">CVD Future</button>
+    <button class="col-tog on" data-col="cbprem"  onclick="toggleCol(this)">CB Premium</button>
+    <button class="col-tog on" data-col="hl"      onclick="toggleCol(this)">H/L</button>
+    <button class="col-tog on" data-col="signal"  onclick="toggleCol(this)">Signal</button>
   </div>
 
   <div class="sep"></div>
 
-  <!-- Search & Filter -->
   <input class="search-box" id="searchBox" type="text" placeholder="🔍 Tìm coin..." oninput="applyFilters()">
   <select class="filter-select" id="filterType" onchange="applyFilters()">
     <option value="all">Tất cả</option>
     <option value="squeeze">Squeeze (Fund âm)</option>
-    <option value="overheated">Overheated (Fund cao)</option>
-    <option value="longdom">Long Dom</option>
-    <option value="shortdom">Short Dom</option>
+    <option value="overheated">Overheated</option>
     <option value="oiup">OI Tăng</option>
     <option value="oidown">OI Giảm</option>
     <option value="gainers">Top Tăng</option>
     <option value="losers">Top Giảm</option>
+    <option value="cbpos">CB Premium +</option>
+    <option value="cbneg">CB Premium –</option>
   </select>
   <select class="filter-select" id="sortCol" onchange="applyFilters()">
-    <option value="">Sắp xếp theo...</option>
+    <option value="">Sắp xếp...</option>
     <option value="vol24_desc">Volume cao nhất</option>
     <option value="chg24_desc">Tăng nhiều nhất</option>
     <option value="chg24_asc">Giảm nhiều nhất</option>
     <option value="funding_asc">Funding âm nhất</option>
     <option value="funding_desc">Funding dương nhất</option>
     <option value="oi_desc">OI cao nhất</option>
-    <option value="oichg_desc">OI tăng nhất</option>
-    <option value="volchg_desc">Vol tăng nhất 24h</option>
-    <option value="volchg_asc">Vol giảm nhất 24h</option>
+    <option value="oipct_desc">OI% tăng nhất</option>
+    <option value="volchg_desc">Vol Chg tăng nhất</option>
+    <option value="cbprem_desc">CB Premium cao nhất</option>
+    <option value="cbprem_asc">CB Premium âm nhất</option>
   </select>
 
   <span class="last-upd" id="lastUpd">–</span>
   <button class="refresh-btn" id="refreshBtn" onclick="loadAll()">↻ REFRESH</button>
 </div>
 
-<!-- Stats bar -->
-<div class="stats-bar" id="statsBar">
+<div class="stats-bar">
   <div class="stat-cell"><div class="stat-label">Coins</div><div class="stat-val" id="s-coins">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Fund Dương</div><div class="stat-val c-pos" id="s-fpos">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Fund Âm</div><div class="stat-val c-neg" id="s-fneg">–</div></div>
-  <div class="stat-cell"><div class="stat-label">OI Tăng</div><div class="stat-val c-pos" id="s-oiup">–</div></div>
-  <div class="stat-cell"><div class="stat-label">OI Giảm</div><div class="stat-val c-neg" id="s-oidn">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Fund+</div><div class="stat-val c-pos" id="s-fpos">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Fund–</div><div class="stat-val c-neg" id="s-fneg">–</div></div>
+  <div class="stat-cell"><div class="stat-label">OI↑</div><div class="stat-val c-pos" id="s-oiup">–</div></div>
+  <div class="stat-cell"><div class="stat-label">OI↓</div><div class="stat-val c-neg" id="s-oidn">–</div></div>
+  <div class="stat-cell"><div class="stat-label">CB Premium+</div><div class="stat-val c-pos" id="s-cbp">–</div></div>
   <div class="stat-cell"><div class="stat-label">Top Tăng</div><div class="stat-val c-pos" id="s-top">–</div></div>
   <div class="stat-cell"><div class="stat-label">Top Giảm</div><div class="stat-val c-neg" id="s-bot">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Squeeze Potential</div><div class="stat-val" id="s-sq" style="color:var(--purple)">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Squeeze?</div><div class="stat-val" id="s-sq" style="color:var(--purple)">–</div></div>
 </div>
 
-<!-- Table -->
 <div class="table-container">
   <div class="loading-full" id="loadingMsg"><div class="spinner"></div> Đang tải tất cả coin Binance Futures...</div>
   <table id="mainTable" style="display:none">
-    <thead>
-      <tr>
-        <th onclick="sortBy('sym')"     data-col="sym"    >#</th>
-        <th onclick="sortBy('sym')"     data-col="sym"    >SYMBOL</th>
-        <th onclick="sortBy('price')"   data-col="price"  >PRICE</th>
-        <th onclick="sortBy('chg24')"   data-col="chg24"  >24H %</th>
-        <th onclick="sortBy('vol24')"   data-col="vol24"  >VOLUME 24H</th>
-        <th onclick="sortBy('volchg')"  data-col="volchg" >VOL CHG 24H</th>
-        <th onclick="sortBy('mcap')"    data-col="mcap"   >MKT CAP (OI×P)</th>
-        <th onclick="sortBy('funding')" data-col="funding">FUNDING</th>
-        <th onclick="sortBy('oi')"      data-col="oi"     >OPEN INTEREST</th>
-        <th onclick="sortBy('oichg')"   data-col="oichg"  >OI CHG%</th>
-        <th onclick="sortBy('ls')"      data-col="ls"     >L/S RATIO</th>
-        <th onclick="sortBy('taker')"   data-col="taker"  >TAKER BUY</th>
-        <th data-col="high52w">HIGH / LOW</th>
-        <th data-col="signal">SIGNAL</th>
-      </tr>
-    </thead>
+    <thead><tr>
+      <th data-col="num">#</th>
+      <th data-col="sym" onclick="sortBy('sym')">SYMBOL</th>
+      <th data-col="price" onclick="sortBy('price')">PRICE</th>
+      <th data-col="chg24" onclick="sortBy('chg24')">24H %</th>
+      <th data-col="vol24" onclick="sortBy('vol24')">VOLUME 24H</th>
+      <th data-col="volchg" onclick="sortBy('volchg')">VOL CHG 24H</th>
+      <th data-col="mcap" onclick="sortBy('mcap')">MKT CAP</th>
+      <th data-col="funding" onclick="sortBy('funding')">FUNDING</th>
+      <th data-col="oi" onclick="sortBy('oi')">OPEN INTEREST</th>
+      <th data-col="oipct" onclick="sortBy('oipct')">OI %</th>
+      <th data-col="cvdspot">CVD SPOT <span style="color:#aaa;font-size:8px">7d</span></th>
+      <th data-col="cvdfut">CVD FUTURE <span style="color:#ff9500;font-size:8px">7d</span></th>
+      <th data-col="cbprem" onclick="sortBy('cbprem')">CB PREMIUM</th>
+      <th data-col="hl">HIGH / LOW</th>
+      <th data-col="signal">SIGNAL</th>
+    </tr></thead>
     <tbody id="tableBody"></tbody>
   </table>
 </div>
 
 <script>
-const BASE = 'https://fapi.binance.com';
+const BASE  = 'https://fapi.binance.com';
+const SBASE = 'https://api.binance.com'; // spot base for CVD spot & CB premium
 let currentTF = '15m';
 let allCoinsData = [];
 let sortKey = 'vol24';
-let sortDir = -1; // -1 desc, 1 asc
+let sortDir = -1;
 let hiddenCols = new Set();
 
-// ── FETCH HELPERS ──
+// ── UTILS ──
 async function fetchJSON(url, retries=2) {
   for (let i=0;i<=retries;i++) {
     try {
@@ -255,12 +230,23 @@ async function fetchJSON(url, retries=2) {
 }
 const sleep = ms => new Promise(r=>setTimeout(r,ms));
 
-// ── DATA FETCHERS ──
-async function getAllSymbols() {
-  const data = await fetchJSON(`${BASE}/fapi/v1/exchangeInfo`);
-  return data.symbols.filter(s=>s.status==='TRADING' && s.quoteAsset==='USDT').map(s=>s.baseAsset);
+function fNum(n,dec=2) {
+  if(n===null||n===undefined||isNaN(n)) return '–';
+  const a=Math.abs(n);
+  if(a>=1e9) return (n/1e9).toFixed(dec)+'B';
+  if(a>=1e6) return (n/1e6).toFixed(dec)+'M';
+  if(a>=1e3) return (n/1e3).toFixed(dec)+'K';
+  return n.toFixed(dec);
+}
+function fPrice(p) {
+  if(!p&&p!==0) return '–';
+  if(p>=10000) return p.toLocaleString('en-US',{maximumFractionDigits:0});
+  if(p>=100)   return p.toFixed(2);
+  if(p>=1)     return p.toFixed(4);
+  return p.toFixed(6);
 }
 
+// ── FETCH ALL TICKERS ──
 async function getAllTickers() {
   const data = await fetchJSON(`${BASE}/fapi/v1/ticker/24hr`);
   const map = {};
@@ -268,14 +254,11 @@ async function getAllTickers() {
     if (!d.symbol.endsWith('USDT')) return;
     const sym = d.symbol.replace('USDT','');
     map[sym] = {
-      price:   parseFloat(d.lastPrice),
-      chg24:   parseFloat(d.priceChangePercent),
-      vol24:   parseFloat(d.quoteVolume),
-      vol24cnt:parseFloat(d.count),           // số lệnh 24h
-      volChg:  parseFloat(d.quoteVolume) - parseFloat(d.prevClosePrice) * parseFloat(d.volume), // sẽ tính lại bên dưới
-      high:    parseFloat(d.highPrice),
-      low:     parseFloat(d.lowPrice),
-      prevVol: parseFloat(d.volume),          // base volume để so sánh
+      price:  parseFloat(d.lastPrice),
+      chg24:  parseFloat(d.priceChangePercent),
+      vol24:  parseFloat(d.quoteVolume),
+      high:   parseFloat(d.highPrice),
+      low:    parseFloat(d.lowPrice),
     };
   });
   return map;
@@ -291,12 +274,6 @@ async function getAllFunding() {
   return map;
 }
 
-async function getAllOI() {
-  const data = await fetchJSON(`${BASE}/fapi/v1/openInterest`).catch(()=>null);
-  // fallback: fetch per batch if bulk not available
-  return null;
-}
-
 async function getOI(sym) {
   try {
     const d = await fetchJSON(`${BASE}/fapi/v1/openInterest?symbol=${sym}USDT`);
@@ -304,75 +281,141 @@ async function getOI(sym) {
   } catch { return null; }
 }
 
-async function getOIChange(sym) {
+// OI% = % change vs 4 periods ago
+async function getOIPct(sym) {
   try {
-    // Use period mapping for openInterestHist
-    const periodMap = {'1m':'5m','3m':'5m','15m':'15m','30m':'30m','1h':'1h','2h':'2h','4h':'4h','1d':'1d','1w':'1d'};
-    const period = periodMap[currentTF] || '15m';
+    const periodMap={'1m':'5m','3m':'5m','15m':'15m','30m':'30m','1h':'1h','2h':'2h','4h':'4h','1d':'1d','1w':'1d'};
+    const period = periodMap[currentTF]||'15m';
     const d = await fetchJSON(`${BASE}/futures/data/openInterestHist?symbol=${sym}USDT&period=${period}&limit=5`);
-    if (!d||d.length<2) return null;
-    const latest = parseFloat(d[d.length-1].sumOpenInterest);
-    const prev   = parseFloat(d[0].sumOpenInterest);
-    return prev>0 ? ((latest-prev)/prev)*100 : null;
+    if(!d||d.length<2) return null;
+    const latest=parseFloat(d[d.length-1].sumOpenInterest);
+    const prev=parseFloat(d[0].sumOpenInterest);
+    return prev>0?((latest-prev)/prev)*100:null;
   } catch { return null; }
 }
 
-async function getLSRatio(sym) {
-  const endpoints = [
-    `${BASE}/futures/data/globalLongShortAccountRatio?symbol=${sym}USDT&period=${currentTF}&limit=1`,
-    `${BASE}/futures/data/topLongShortAccountRatio?symbol=${sym}USDT&period=${currentTF}&limit=1`,
-  ];
-  for (const url of endpoints) {
-    try {
-      const d = await fetchJSON(url);
-      if (d&&d.length>0) {
-        const v = parseFloat(d[0].longShortRatio);
-        if (!isNaN(v)&&v>0) return v;
-      }
-    } catch {}
-  }
-  return null;
-}
-
-async function getTaker(sym) {
+// CVD Spot: cumulative delta of spot klines (taker buy - taker sell) over 7 days
+// Uses 1h klines, 168 candles = 7 days, returns array of cumulative values
+async function getCVDSpot(sym) {
   try {
-    const limit = {'1m':12,'3m':8,'15m':8,'30m':6,'1h':6,'2h':4,'4h':4,'1d':3,'1w':2}[currentTF]||8;
-    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=${currentTF}&limit=${limit}`);
-    let tot=0, buy=0;
-    d.forEach(k=>{ tot+=parseFloat(k[5]); buy+=parseFloat(k[9]); });
-    return tot>0 ? buy/tot : null;
+    const d = await fetchJSON(`${SBASE}/api/v3/klines?symbol=${sym}USDT&interval=1h&limit=168`);
+    if(!d||d.length<2) return null;
+    const deltas = d.map(k=>{
+      const vol   = parseFloat(k[5]);
+      const buyVol= parseFloat(k[9]);
+      return (buyVol - (vol - buyVol)); // buy vol - sell vol
+    });
+    // cumulative sum
+    const cvd = [];
+    let cum = 0;
+    deltas.forEach(v=>{ cum+=v; cvd.push(cum); });
+    return cvd;
   } catch { return null; }
 }
 
-// ── FORMAT ──
-function fNum(n,dec=2) {
-  if(n===null||n===undefined||isNaN(n)) return '–';
-  const a=Math.abs(n);
-  if(a>=1e9) return (n/1e9).toFixed(dec)+'B';
-  if(a>=1e6) return (n/1e6).toFixed(dec)+'M';
-  if(a>=1e3) return (n/1e3).toFixed(dec)+'K';
-  return n.toFixed(dec);
+// CVD Futures: same but futures klines
+async function getCVDFutures(sym) {
+  try {
+    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=1h&limit=168`);
+    if(!d||d.length<2) return null;
+    const deltas = d.map(k=>{
+      const vol   = parseFloat(k[5]);
+      const buyVol= parseFloat(k[9]);
+      return (buyVol - (vol - buyVol));
+    });
+    const cvd = [];
+    let cum = 0;
+    deltas.forEach(v=>{ cum+=v; cvd.push(cum); });
+    return cvd;
+  } catch { return null; }
 }
-function fPrice(p) {
-  if(!p) return '–';
-  if(p>=10000) return p.toLocaleString('en-US',{maximumFractionDigits:0});
-  if(p>=100)   return p.toFixed(2);
-  if(p>=1)     return p.toFixed(4);
-  return p.toFixed(6);
+
+// Coinbase Premium: (Coinbase BTC price - Binance BTC price) / Binance BTC price * 100
+// For non-BTC: use BTC premium as proxy, or compare spot prices
+async function getCBPremium(sym) {
+  try {
+    // Coinbase doesn't have public CORS-friendly API for all coins
+    // Use Binance spot vs futures basis as proxy (spot premium over futures)
+    const [spot, fut] = await Promise.all([
+      fetchJSON(`${SBASE}/api/v3/ticker/price?symbol=${sym}USDT`).catch(()=>null),
+      fetchJSON(`${BASE}/fapi/v1/ticker/price?symbol=${sym}USDT`).catch(()=>null),
+    ]);
+    if(!spot||!fut) return null;
+    const sp = parseFloat(spot.price);
+    const fp = parseFloat(fut.price);
+    if(!sp||!fp) return null;
+    return ((sp-fp)/fp)*100; // spot premium over futures (%)
+  } catch { return null; }
+}
+
+// Volume change 24h: compare today vs yesterday kline
+async function getVolChange(sym) {
+  try {
+    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=1d&limit=3`);
+    if(!d||d.length<2) return null;
+    const curr=parseFloat(d[d.length-1][7]);
+    const prev=parseFloat(d[d.length-2][7]);
+    return prev>0?((curr-prev)/prev)*100:null;
+  } catch { return null; }
+}
+
+// ── SPARKLINE RENDERER ──
+// Returns an <img> data URL of a tiny line chart
+function drawSparkline(values, color, width=120, height=36) {
+  if(!values||values.length<2) return null;
+  const canvas = document.createElement('canvas');
+  canvas.width = width; canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  const mn = Math.min(...values);
+  const mx = Math.max(...values);
+  const range = mx - mn || 1;
+  const pad = 3;
+  const pts = values.map((v,i)=>({
+    x: pad + (i/(values.length-1))*(width-pad*2),
+    y: pad + (1-(v-mn)/range)*(height-pad*2)
+  }));
+  // fill under line
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, height);
+  pts.forEach(p=>ctx.lineTo(p.x,p.y));
+  ctx.lineTo(pts[pts.length-1].x, height);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0,0,0,height);
+  grad.addColorStop(0, color+'33');
+  grad.addColorStop(1, color+'00');
+  ctx.fillStyle = grad;
+  ctx.fill();
+  // line
+  ctx.beginPath();
+  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  // last dot
+  const last = pts[pts.length-1];
+  ctx.beginPath();
+  ctx.arc(last.x,last.y,2.5,0,Math.PI*2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  return canvas.toDataURL();
 }
 
 // ── SIGNALS ──
-function getSignals(fund, ls, oiChg, taker, chg24) {
+function getSignals(fund, oiPct, cvdSpot, cvdFut, cbPrem, chg24) {
   const badges=[];
-  const f = fund*100;
+  const f=fund*100;
   if(f < -0.02) badges.push({c:'b-sq',  t:'SQUEEZE?'});
   if(f >  0.06) badges.push({c:'b-bear',t:'OVERHTD'});
-  if(ls && ls < 0.65) badges.push({c:'b-bear',t:'SHORT DOM'});
-  if(ls && ls > 1.6)  badges.push({c:'b-bull',t:'LONG DOM'});
-  if(oiChg !== null && oiChg >  4) badges.push({c:'b-bull',t:'OI↑'});
-  if(oiChg !== null && oiChg < -4) badges.push({c:'b-bear',t:'OI↓'});
-  if(taker !== null && taker > 0.58) badges.push({c:'b-bull',t:'BUY PRESS'});
-  if(taker !== null && taker < 0.42) badges.push({c:'b-bear',t:'SELL PRESS'});
+  if(oiPct !== null && oiPct >  4) badges.push({c:'b-bull',t:'OI↑'});
+  if(oiPct !== null && oiPct < -4) badges.push({c:'b-bear',t:'OI↓'});
+  if(cbPrem !== null && cbPrem > 0.05)  badges.push({c:'b-bull',t:'CB+'});
+  if(cbPrem !== null && cbPrem < -0.05) badges.push({c:'b-bear',t:'CB–'});
+  // CVD divergence: spot positive but futures negative = accumulation
+  if(cvdSpot&&cvdFut) {
+    const sLast=cvdSpot[cvdSpot.length-1]; const fLast=cvdFut[cvdFut.length-1];
+    if(sLast>0&&fLast<0) badges.push({c:'b-bull',t:'CVD DIV+'});
+    if(sLast<0&&fLast>0) badges.push({c:'b-bear',t:'CVD DIV–'});
+  }
   if(badges.length===0) badges.push({c:'b-neu',t:'WATCH'});
   return badges;
 }
@@ -384,17 +427,39 @@ function renderRow(d, idx) {
   const fVal = d.funding??0;
   const fCls = fVal>=0?'c-pos':'c-neg';
   const fSign = fVal>=0?'+':'';
-  const lsDisplay = d.ls ? d.ls.toFixed(3):'–';
-  const lsPct = d.ls ? Math.min((d.ls/(1+d.ls))*100,100).toFixed(0):'50';
-  const lsCls = d.ls>1?'c-pos':d.ls<1?'c-neg':'';
-  const tkPct = d.taker !== null ? (d.taker*100).toFixed(1):'–';
-  const tkCls = d.taker>0.55?'c-pos':d.taker<0.45?'c-neg':'c-neu';
-  const oiChgCls = d.oiChg>1?'c-pos':d.oiChg<-1?'c-neg':'c-neu';
-  const oiChgSign = d.oiChg>0?'+':'';
-  const oiChgDisp = d.oiChg!==null?`${oiChgSign}${d.oiChg.toFixed(2)}%`:'–';
-  const mcap = d.oi!==null&&d.price ? d.oi*d.price : null;
-  const hl52 = `<span class="c-pos" style="font-size:10px">H ${fPrice(d.high)}</span><br><span class="c-neg" style="font-size:10px">L ${fPrice(d.low)}</span>`;
-  const sigs = getSignals(fVal, d.ls, d.oiChg, d.taker, d.chg24);
+  const oiPctCls = d.oiPct>1?'c-pos':d.oiPct<-1?'c-neg':'c-neu';
+  const oiPctSign = d.oiPct>0?'+':'';
+  const oiPctDisp = d.oiPct!==null?`${oiPctSign}${d.oiPct.toFixed(2)}%`:'–';
+  const mcap = d.oi!==null&&d.price?d.oi*d.price:null;
+  const sigs = getSignals(fVal, d.oiPct, d.cvdSpot, d.cvdFut, d.cbPrem, d.chg24);
+
+  // Vol change
+  const volChgHtml = d.volChgPct!==null&&d.volChgPct!==undefined
+    ? `<span class="${d.volChgPct>=0?'c-pos':'c-neg'}" style="font-weight:600">${d.volChgPct>=0?'+':''}${d.volChgPct.toFixed(1)}%</span>`
+    : '<span class="c-dim">–</span>';
+
+  // CVD sparklines
+  const spotImg  = d.cvdSpot  ? drawSparkline(d.cvdSpot,  '#ffffff', 120, 36) : null;
+  const futImg   = d.cvdFut   ? drawSparkline(d.cvdFut,   '#ff9500', 120, 36) : null;
+  const spotLast = d.cvdSpot  ? d.cvdSpot[d.cvdSpot.length-1]  : null;
+  const futLast  = d.cvdFut   ? d.cvdFut[d.cvdFut.length-1]    : null;
+  const spotCls  = spotLast>0?'c-pos':'c-neg';
+  const futCls   = futLast>0?'c-pos':'c-neg';
+
+  const cvdSpotHtml = spotImg
+    ? `<div class="spark-wrap"><img src="${spotImg}" width="120" height="36"><span class="spark-val ${spotCls}">${fNum(spotLast,0)}</span></div>`
+    : '<span class="c-dim">loading...</span>';
+  const cvdFutHtml = futImg
+    ? `<div class="spark-wrap"><img src="${futImg}" width="120" height="36"><span class="spark-val ${futCls}" style="color:var(--orange)">${fNum(futLast,0)}</span></div>`
+    : '<span class="c-dim">loading...</span>';
+
+  // CB Premium
+  const cbVal = d.cbPrem;
+  const cbCls = cbVal>0.02?'c-pos':cbVal<-0.02?'c-neg':'c-dim';
+  const cbSign = cbVal>0?'+':'';
+  const cbHtml = cbVal!==null
+    ? `<span class="${cbCls} cb-val">${cbSign}${cbVal.toFixed(4)}%</span><span style="display:block;font-size:9px;color:var(--dim)">Spot vs Perp</span>`
+    : '<span class="c-dim">–</span>';
 
   return `<tr data-sym="${d.sym}">
     <td style="color:var(--dim);font-size:10px">${idx+1}</td>
@@ -402,31 +467,18 @@ function renderRow(d, idx) {
     <td data-col="price"><span class="c-price">$${fPrice(d.price)}</span></td>
     <td data-col="chg24"><span class="chg-badge ${chgCls}">${chgSign}${d.chg24.toFixed(2)}%</span></td>
     <td data-col="vol24"><span style="color:#cce8ff">$${fNum(d.vol24)}</span></td>
-    <td data-col="volchg">${d.volChgPct!==null&&d.volChgPct!==undefined
-      ? `<span class="${d.volChgPct>=0?'c-pos':'c-neg'}" style="font-weight:600">${d.volChgPct>=0?'+':''}${d.volChgPct.toFixed(1)}%</span><span style="display:block;font-size:9px;color:var(--dim)">vs hôm qua</span>`
-      : '<span class="c-dim">–</span>'}</td>
+    <td data-col="volchg">${volChgHtml}</td>
     <td data-col="mcap"><span class="c-dim">$${fNum(mcap)}</span></td>
     <td data-col="funding">
       <span class="${fCls}" style="font-weight:600">${fSign}${(fVal*100).toFixed(4)}%</span>
-      <span style="display:block;font-size:9px;color:var(--dim);margin-top:1px">${fVal>0?'Long pays':'Short pays'}</span>
+      <span style="display:block;font-size:9px;color:var(--dim)">${fVal>0?'Long pays':'Short pays'}</span>
     </td>
     <td data-col="oi"><span style="color:#cce8ff">${fNum(d.oi)}</span></td>
-    <td data-col="oichg"><span class="${oiChgCls}" style="font-weight:600">${oiChgDisp}</span></td>
-    <td data-col="ls">
-      <div class="mini-bar-wrap">
-        <span class="${lsCls}" style="font-size:12px;font-weight:600;width:38px">${lsDisplay}</span>
-        <div><div class="mini-track"><div class="mini-fill-g" style="width:${lsPct}%"></div></div>
-        <span style="font-size:9px;color:var(--dim)">L${lsPct}%</span></div>
-      </div>
-    </td>
-    <td data-col="taker">
-      <div class="mini-bar-wrap">
-        <span class="${tkCls}" style="font-size:12px;font-weight:600;width:38px">${tkPct}%</span>
-        <div><div class="mini-track"><div class="mini-fill-b" style="width:${tkPct}%"></div></div>
-        <span style="font-size:9px;color:var(--dim)">B${tkPct}%</span></div>
-      </div>
-    </td>
-    <td data-col="high52w">${hl52}</td>
+    <td data-col="oipct"><span class="${oiPctCls}" style="font-weight:600">${oiPctDisp}</span></td>
+    <td data-col="cvdspot">${cvdSpotHtml}</td>
+    <td data-col="cvdfut">${cvdFutHtml}</td>
+    <td data-col="cbprem">${cbHtml}</td>
+    <td data-col="hl"><span class="c-pos" style="font-size:10px">H ${fPrice(d.high)}</span><br><span class="c-neg" style="font-size:10px">L ${fPrice(d.low)}</span></td>
     <td data-col="signal"><div class="sig-wrap">${sigs.map(s=>`<span class="badge ${s.c}">${s.t}</span>`).join('')}</div></td>
   </tr>`;
 }
@@ -439,44 +491,45 @@ function sortBy(key) {
 }
 
 function applyFilters() {
-  const q = document.getElementById('searchBox').value.trim().toUpperCase();
+  const q  = document.getElementById('searchBox').value.trim().toUpperCase();
   const ft = document.getElementById('filterType').value;
   const sc = document.getElementById('sortCol').value;
 
-  // parse sort dropdown
   if(sc) {
-    const [k,dir]=sc.split('_');
-    sortKey=k; sortDir=dir==='desc'?-1:1;
+    const parts=sc.split('_'); const dir=parts.pop();
+    sortKey=parts.join('_'); sortDir=dir==='desc'?-1:1;
     document.getElementById('sortCol').value='';
   }
 
   let filtered = allCoinsData.filter(d=>{
     if(q && !d.sym.includes(q)) return false;
-    if(ft==='squeeze')   return d.funding*100 < -0.01;
-    if(ft==='overheated')return d.funding*100 > 0.05;
-    if(ft==='longdom')   return d.ls && d.ls > 1.6;
-    if(ft==='shortdom')  return d.ls && d.ls < 0.65;
-    if(ft==='oiup')      return d.oiChg!==null && d.oiChg > 2;
-    if(ft==='oidown')    return d.oiChg!==null && d.oiChg < -2;
-    if(ft==='gainers')   return d.chg24 > 3;
-    if(ft==='losers')    return d.chg24 < -3;
+    if(ft==='squeeze')    return d.funding*100 < -0.01;
+    if(ft==='overheated') return d.funding*100 > 0.05;
+    if(ft==='oiup')       return d.oiPct!==null&&d.oiPct>2;
+    if(ft==='oidown')     return d.oiPct!==null&&d.oiPct<-2;
+    if(ft==='gainers')    return d.chg24>3;
+    if(ft==='losers')     return d.chg24<-3;
+    if(ft==='cbpos')      return d.cbPrem!==null&&d.cbPrem>0.02;
+    if(ft==='cbneg')      return d.cbPrem!==null&&d.cbPrem<-0.02;
     return true;
   });
 
-  // sort
-  const keyMap={sym:'sym',price:'price',chg24:'chg24',vol24:'vol24',volchg:'volChgPct',mcap:d=>d.oi*d.price,funding:'funding',oi:'oi',oichg:'oiChg',ls:'ls',taker:'taker'};
+  const keyMap={
+    sym:'sym',price:'price',chg24:'chg24',vol24:'vol24',
+    volchg:'volChgPct',mcap:d=>d.oi*d.price,
+    funding:'funding',oi:'oi',oipct:'oiPct',
+    cbprem:'cbPrem'
+  };
   filtered.sort((a,b)=>{
     const fn=keyMap[sortKey];
-    const va = typeof fn==='function'?fn(a):(a[fn]??-Infinity);
-    const vb = typeof fn==='function'?fn(b):(b[fn]??-Infinity);
+    const va=typeof fn==='function'?fn(a):(a[fn]??-Infinity);
+    const vb=typeof fn==='function'?fn(b):(b[fn]??-Infinity);
     return (va-vb)*sortDir;
   });
 
-  // render
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = filtered.map((d,i)=>renderRow(d,i)).join('');
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML=filtered.map((d,i)=>renderRow(d,i)).join('');
 
-  // apply hidden cols
   hiddenCols.forEach(col=>{
     document.querySelectorAll(`[data-col="${col}"]`).forEach(el=>el.classList.add('col-hidden'));
   });
@@ -484,40 +537,38 @@ function applyFilters() {
   updateStats(allCoinsData);
 }
 
-// ── STATS BAR ──
+// ── STATS ──
 function updateStats(data) {
-  const fpos = data.filter(d=>d.funding>0).length;
-  const fneg = data.filter(d=>d.funding<0).length;
-  const oiup = data.filter(d=>d.oiChg!==null&&d.oiChg>0).length;
-  const oidn = data.filter(d=>d.oiChg!==null&&d.oiChg<0).length;
-  const sq   = data.filter(d=>d.funding*100<-0.01).length;
-  const sorted24 = [...data].sort((a,b)=>b.chg24-a.chg24);
-  const top = sorted24[0];
-  const bot = sorted24[sorted24.length-1];
-  document.getElementById('s-coins').textContent = data.length;
-  document.getElementById('s-fpos').textContent  = fpos;
-  document.getElementById('s-fneg').textContent  = fneg;
-  document.getElementById('s-oiup').textContent  = oiup;
-  document.getElementById('s-oidn').textContent  = oidn;
-  document.getElementById('s-sq').textContent    = sq + ' coins';
-  document.getElementById('s-top').textContent   = top ? `${top.sym} +${top.chg24.toFixed(1)}%` : '–';
-  document.getElementById('s-bot').textContent   = bot ? `${bot.sym} ${bot.chg24.toFixed(1)}%`  : '–';
+  const fpos=data.filter(d=>d.funding>0).length;
+  const fneg=data.filter(d=>d.funding<0).length;
+  const oiup=data.filter(d=>d.oiPct!==null&&d.oiPct>0).length;
+  const oidn=data.filter(d=>d.oiPct!==null&&d.oiPct<0).length;
+  const sq  =data.filter(d=>d.funding*100<-0.01).length;
+  const cbp =data.filter(d=>d.cbPrem!==null&&d.cbPrem>0.02).length;
+  const s24 =[...data].sort((a,b)=>b.chg24-a.chg24);
+  document.getElementById('s-coins').textContent=data.length;
+  document.getElementById('s-fpos').textContent=fpos;
+  document.getElementById('s-fneg').textContent=fneg;
+  document.getElementById('s-oiup').textContent=oiup;
+  document.getElementById('s-oidn').textContent=oidn;
+  document.getElementById('s-cbp').textContent=cbp+' coins';
+  document.getElementById('s-sq').textContent=sq+' coins';
+  document.getElementById('s-top').textContent=s24[0]?`${s24[0].sym} +${s24[0].chg24.toFixed(1)}%`:'–';
+  document.getElementById('s-bot').textContent=s24[s24.length-1]?`${s24[s24.length-1].sym} ${s24[s24.length-1].chg24.toFixed(1)}%`:'–';
 }
 
 // ── COLUMN TOGGLE ──
 function toggleCol(btn) {
-  const col = btn.dataset.col;
+  const col=btn.dataset.col;
   btn.classList.toggle('on');
-  if(btn.classList.contains('on')) hiddenCols.delete(col);
-  else hiddenCols.add(col);
-  document.querySelectorAll(`[data-col="${col}"]`).forEach(el=>{
-    el.classList.toggle('col-hidden', !btn.classList.contains('on'));
-  });
+  const on=btn.classList.contains('on');
+  if(on) hiddenCols.delete(col); else hiddenCols.add(col);
+  document.querySelectorAll(`[data-col="${col}"]`).forEach(el=>el.classList.toggle('col-hidden',!on));
 }
 
 // ── TIMEFRAME ──
-function setTF(tf, btn) {
-  currentTF = tf;
+function setTF(tf,btn) {
+  currentTF=tf;
   document.querySelectorAll('.tf-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   loadAll();
@@ -525,7 +576,7 @@ function setTF(tf, btn) {
 
 // ── MAIN LOAD ──
 async function loadAll() {
-  const btn = document.getElementById('refreshBtn');
+  const btn=document.getElementById('refreshBtn');
   btn.classList.add('loading'); btn.textContent='↻ LOADING...';
   document.getElementById('loadingMsg').style.display='flex';
   document.getElementById('mainTable').style.display='none';
@@ -534,44 +585,50 @@ async function loadAll() {
     const [tickers, funding] = await Promise.all([getAllTickers(), getAllFunding()]);
     const syms = Object.keys(tickers);
 
-    // Init data with what we have
     allCoinsData = syms.map(sym=>({
       sym, ...tickers[sym],
       funding: funding[sym]??0,
-      oi: null, oiChg: null, ls: null, taker: null, volChgPct: null
+      oi:null, oiPct:null, volChgPct:null,
+      cvdSpot:null, cvdFut:null, cbPrem:null
     }));
 
-    // Sort by volume first, show table
     allCoinsData.sort((a,b)=>b.vol24-a.vol24);
     document.getElementById('loadingMsg').style.display='none';
     document.getElementById('mainTable').style.display='';
     applyFilters();
 
-    // Load detailed data in batches (top 80 by volume)
-    const top80 = allCoinsData.slice(0,80);
-    const BATCH = 5;
-    for(let i=0;i<top80.length;i+=BATCH) {
-      const batch = top80.slice(i,i+BATCH);
+    // Load details for top 60 by volume in batches of 4
+    const top60 = allCoinsData.slice(0,60);
+    const BATCH = 4;
+    for(let i=0;i<top60.length;i+=BATCH) {
+      const batch=top60.slice(i,i+BATCH);
       await Promise.all(batch.map(async d=>{
-        const [oi, oiChg, ls, taker, volChgPct] = await Promise.all([
-          getOI(d.sym), getOIChange(d.sym), getLSRatio(d.sym), getTaker(d.sym), getVolChange(d.sym)
+        const [oi,oiPct,volChgPct,cvdSpot,cvdFut,cbPrem]=await Promise.all([
+          getOI(d.sym),
+          getOIPct(d.sym),
+          getVolChange(d.sym),
+          getCVDSpot(d.sym),
+          getCVDFutures(d.sym),
+          getCBPremium(d.sym),
         ]);
-        d.oi=oi; d.oiChg=oiChg; d.ls=ls; d.taker=taker; d.volChgPct=volChgPct;
+        d.oi=oi; d.oiPct=oiPct; d.volChgPct=volChgPct;
+        d.cvdSpot=cvdSpot; d.cvdFut=cvdFut; d.cbPrem=cbPrem;
       }));
       applyFilters();
-      if(i+BATCH<top80.length) await sleep(350);
+      if(i+BATCH<top60.length) await sleep(400);
     }
 
     document.getElementById('lastUpd').textContent='Updated '+new Date().toLocaleTimeString('vi-VN');
   } catch(e) {
     console.error(e);
     document.getElementById('loadingMsg').innerHTML=`<span style="color:var(--red)">⚠ Lỗi: ${e.message}</span>`;
+    document.getElementById('loadingMsg').style.display='flex';
   }
 
   btn.classList.remove('loading'); btn.textContent='↻ REFRESH';
 }
 
-setInterval(loadAll, 60000);
+setInterval(loadAll, 90000);
 loadAll();
 </script>
 </body>
