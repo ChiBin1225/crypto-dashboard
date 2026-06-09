@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DERIV // MONITOR</title>
+<title>DRV MON</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 :root {
   --bg:     #020408;
   --bg2:    #060c14;
   --bg3:    #0a1220;
-  --border: #0f1e30;
-  --border2:#1a2f48;
-  --text:   #e8f4ff;
-  --dim:    #3a5a7a;
+  --border: #142535;
+  --border2:#1e3a55;
+  --text:   #f5fbff;
+  --dim:    #7aabc8;
   --green:  #00ff88;
   --red:    #ff2d55;
   --yellow: #ffe600;
@@ -23,10 +23,10 @@
   --accent: #ffe600;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;min-height:100vh;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
 
 .header{display:flex;align-items:center;gap:14px;padding:9px 16px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:200;flex-wrap:wrap;}
-.logo{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:3px;text-shadow:0 0 14px rgba(255,230,0,.55);white-space:nowrap;}
+.logo{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:3px;text-shadow:0 0 14px rgba(255,230,0,.55);white-space:nowrap;}
 .sep{width:1px;height:22px;background:var(--border2);flex-shrink:0;}
 
 .tf-group{display:flex;gap:3px;}
@@ -45,7 +45,7 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .stats-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;background:var(--bg2);}
 .stat-cell{padding:6px 14px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
 .stat-label{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--text);margin-top:1px;}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--text);margin-top:1px;}
 
 .refresh-btn{padding:4px 12px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;margin-left:auto;}
 .refresh-btn:hover{background:var(--accent);color:#000;}
@@ -56,23 +56,23 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .table-container{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 120px);}
 table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;}
 thead{position:sticky;top:0;z-index:100;}
-thead th{padding:8px 10px;font-size:10px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;background:#03070e;border-bottom:2px solid var(--border2);border-right:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;}
+thead th{padding:10px 12px;font-size:11px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;background:#03070e;border-bottom:2px solid var(--border2);border-right:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;}
 thead th:hover{color:var(--accent);}
 thead th.sort-asc::after{content:' ↑';color:var(--accent);}
 thead th.sort-desc::after{content:' ↓';color:var(--accent);}
 thead th:last-child{border-right:none;}
 tbody tr{border-bottom:1px solid #070e18;transition:background .1s;}
 tbody tr:hover{background:#0a1828;}
-tbody td{padding:7px 10px;font-size:12px;border-right:1px solid #060d18;vertical-align:middle;white-space:nowrap;}
+tbody td{padding:9px 12px;font-size:13px;border-right:1px solid #060d18;vertical-align:middle;white-space:nowrap;}
 tbody td:last-child{border-right:none;}
 
 /* CELLS */
 .c-sym{font-size:12px;font-weight:700;color:var(--accent);text-shadow:0 0 8px rgba(255,230,0,.3);letter-spacing:.8px;}
-.c-price{font-size:13px;font-weight:700;color:#fff;}
+.c-price{font-size:14px;font-weight:700;color:#ffffff;}
 .c-pos{color:var(--green);text-shadow:0 0 5px rgba(0,255,136,.3);}
 .c-neg{color:var(--red);text-shadow:0 0 5px rgba(255,45,85,.3);}
 .c-neu{color:var(--yellow);}
-.c-dim{color:var(--dim);font-size:11px;}
+.c-dim{color:var(--dim);font-size:12px;}
 .chg-badge{display:inline-block;padding:2px 5px;border-radius:3px;font-size:11px;font-weight:600;}
 .chg-badge.pos{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2);}
 .chg-badge.neg{background:rgba(255,45,85,.1);color:var(--red);border:1px solid rgba(255,45,85,.2);}
@@ -108,7 +108,7 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
 <body>
 
 <div class="header">
-  <div class="logo">DERIV // MONITOR</div>
+  <div class="logo">DRV MON</div>
   <div class="sep"></div>
 
   <div class="tf-group">
@@ -216,6 +216,7 @@ let allCoinsData = [];
 let sortKey = 'vol24';
 let sortDir = -1;
 let hiddenCols = new Set();
+let mcapCache = {}; // symbol -> market_cap in USD
 
 // ── COIN NAME MAP ──
 const COIN_NAMES = {
@@ -427,6 +428,25 @@ async function getVolChange(sym) {
   } catch { return null; }
 }
 
+
+// ── FETCH MARKET CAPS from CoinGecko ──
+async function fetchMarketCaps(symbols) {
+  try {
+    // Build id list using CMC_SLUGS as approximation (CoinGecko uses same slugs mostly)
+    const ids = symbols.map(s => CMC_SLUGS[s] || s.toLowerCase()).join(',');
+    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&per_page=250&sparkline=false`;
+    const data = await fetchJSON(url);
+    if(!Array.isArray(data)) return;
+    // Map back: find symbol by matching id to CMC_SLUGS
+    const reverseSlug = {};
+    Object.entries(CMC_SLUGS).forEach(([sym, slug]) => { reverseSlug[slug] = sym; });
+    data.forEach(coin => {
+      const sym = reverseSlug[coin.id] || coin.symbol.toUpperCase();
+      if(coin.market_cap) mcapCache[sym] = coin.market_cap;
+    });
+  } catch(e) { console.warn('CoinGecko mcap fetch failed', e); }
+}
+
 // ── SPARKLINE RENDERER ──
 // Returns an <img> data URL of a tiny line chart
 function drawSparkline(values, color, width=120, height=36) {
@@ -491,19 +511,19 @@ function getSignals(fund, oiPct, cvdSpot, cvdFut, cbPrem, chg24) {
 // ── RENDER ROW ──
 function renderRow(d, idx) {
   const chgCls = d.chg24>=0?'pos':'neg';
-  const chgSign = d.chg24>=0?'+':'';
+  const chgSign = d.chg24>=0?'▲ +':'▼ ';
   const fVal = d.funding??0;
   const fCls = fVal>=0?'c-pos':'c-neg';
   const fSign = fVal>=0?'+':'';
   const oiPctCls = d.oiPct>1?'c-pos':d.oiPct<-1?'c-neg':'c-neu';
-  const oiPctSign = d.oiPct>0?'+':'';
+  const oiPctSign = d.oiPct>0?'▲ +':d.oiPct<0?'▼ ':'';
   const oiPctDisp = d.oiPct!==null?`${oiPctSign}${d.oiPct.toFixed(2)}%`:'–';
-  const mcap = d.oi!==null&&d.price?d.oi*d.price:null;
+  const mcap = mcapCache[d.sym] ?? null;
   const sigs = getSignals(fVal, d.oiPct, d.cvdSpot, d.cvdFut, d.cbPrem, d.chg24);
 
   // Vol change
   const volChgHtml = d.volChgPct!==null&&d.volChgPct!==undefined
-    ? `<span class="${d.volChgPct>=0?'c-pos':'c-neg'}" style="font-weight:600">${d.volChgPct>=0?'+':''}${d.volChgPct.toFixed(1)}%</span>`
+    ? `<span class="${d.volChgPct>=0?'c-pos':'c-neg'}" style="font-weight:600">${d.volChgPct>=0?'▲ +':'▼ '}${d.volChgPct.toFixed(1)}%</span>`
     : '<span class="c-dim">–</span>';
 
   // CVD sparklines
@@ -539,7 +559,7 @@ function renderRow(d, idx) {
     <td data-col="chg24"><span class="chg-badge ${chgCls}">${chgSign}${d.chg24.toFixed(2)}%</span></td>
     <td data-col="vol24"><span style="color:#cce8ff">$${fNum(d.vol24)}</span></td>
     <td data-col="volchg">${volChgHtml}</td>
-    <td data-col="mcap"><span class="c-dim">$${fNum(mcap)}</span></td>
+    <td data-col="mcap"><span style="color:#a0d0f0;font-size:12px">$${fNum(mcap,0)}</span></td>
     <td data-col="funding">
       <span class="${fCls}" style="font-weight:600">${fSign}${(fVal*100).toFixed(4)}%</span>
       <span style="display:block;font-size:9px;color:var(--dim)">${fVal>0?'Long pays':'Short pays'}</span>
@@ -586,7 +606,7 @@ function applyFilters() {
 
   const keyMap={
     sym:'sym',price:'price',chg24:'chg24',vol24:'vol24',
-    volchg:'volChgPct',mcap:d=>d.oi*d.price,
+    volchg:'volChgPct',mcap:d=>mcapCache[d.sym]??0,
     funding:'funding',oi:'oi',oipct:'oiPct',
     cbprem:'cbPrem'
   };
@@ -667,6 +687,9 @@ async function loadAll() {
     }));
 
     allCoinsData.sort((a,b)=>b.vol24-a.vol24);
+    // Fetch real market caps for top 200 coins
+    const top200syms = allCoinsData.slice(0,200).map(d=>d.sym);
+    fetchMarketCaps(top200syms).then(()=>applyFilters());
     document.getElementById('loadingMsg').style.display='none';
     document.getElementById('mainTable').style.display='';
     applyFilters();
