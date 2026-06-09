@@ -101,8 +101,6 @@ tbody td:last-child{border-right:none;}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-a.sym-link:hover .c-sym{text-shadow:0 0 12px rgba(255,230,0,.7);}
-tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
 </style>
 </head>
 <body>
@@ -126,8 +124,8 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
   <div class="sep"></div>
 
   <div class="col-toggle-wrap">
-    <span style="font-size:9px;color:var(--dim);align-self:center;margin-right:2px;letter-spacing:.8px">COLS:</span>
-    <button class="col-tog on" data-col="price"   onclick="toggleCol(this)">Price</button>
+    <span style="font-size:9px;color:var(--dim);align-self:center;margin-right:2px;letter-spacing:.8px">CỘT:</span>
+    <button class="col-tog on" data-col="price"   onclick="toggleCol(this)">Giá</button>
     <button class="col-tog on" data-col="chg24"   onclick="toggleCol(this)">24h%</button>
     <button class="col-tog on" data-col="vol24"   onclick="toggleCol(this)">Volume</button>
     <button class="col-tog on" data-col="volchg"  onclick="toggleCol(this)">Vol Chg%</button>
@@ -144,30 +142,30 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
 
   <div class="sep"></div>
 
-  <input class="search-box" id="searchBox" type="text" placeholder="🔍 Search coin..." oninput="applyFilters()">
+  <input class="search-box" id="searchBox" type="text" placeholder="🔍 Tìm coin..." oninput="applyFilters()">
   <select class="filter-select" id="filterType" onchange="applyFilters()">
-    <option value="all">All</option>
-    <option value="squeeze">Squeeze (Fund –)</option>
+    <option value="all">Tất cả</option>
+    <option value="squeeze">Squeeze (Fund âm)</option>
     <option value="overheated">Overheated</option>
-    <option value="oiup">OI Rising</option>
-    <option value="oidown">OI Falling</option>
-    <option value="gainers">Top Gainers</option>
-    <option value="losers">Top Losers</option>
+    <option value="oiup">OI Tăng</option>
+    <option value="oidown">OI Giảm</option>
+    <option value="gainers">Top Tăng</option>
+    <option value="losers">Top Giảm</option>
     <option value="cbpos">CB Premium +</option>
     <option value="cbneg">CB Premium –</option>
   </select>
   <select class="filter-select" id="sortCol" onchange="applyFilters()">
-    <option value="">Sort by...</option>
-    <option value="vol24_desc">Volume ↓</option>
-    <option value="chg24_desc">Gain ↓</option>
-    <option value="chg24_asc">Loss ↓</option>
-    <option value="funding_asc">Funding –</option>
-    <option value="funding_desc">Funding +</option>
-    <option value="oi_desc">OI ↓</option>
-    <option value="oipct_desc">OI% ↓</option>
-    <option value="volchg_desc">Vol Chg ↓</option>
-    <option value="cbprem_desc">CB Premium ↓</option>
-    <option value="cbprem_asc">CB Premium ↑</option>
+    <option value="">Sắp xếp...</option>
+    <option value="vol24_desc">Volume cao nhất</option>
+    <option value="chg24_desc">Tăng nhiều nhất</option>
+    <option value="chg24_asc">Giảm nhiều nhất</option>
+    <option value="funding_asc">Funding âm nhất</option>
+    <option value="funding_desc">Funding dương nhất</option>
+    <option value="oi_desc">OI cao nhất</option>
+    <option value="oipct_desc">OI% tăng nhất</option>
+    <option value="volchg_desc">Vol Chg tăng nhất</option>
+    <option value="cbprem_desc">CB Premium cao nhất</option>
+    <option value="cbprem_asc">CB Premium âm nhất</option>
   </select>
 
   <span class="last-upd" id="lastUpd">–</span>
@@ -176,18 +174,18 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
 
 <div class="stats-bar">
   <div class="stat-cell"><div class="stat-label">Coins</div><div class="stat-val" id="s-coins">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Fund +</div><div class="stat-val c-pos" id="s-fpos">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Fund –</div><div class="stat-val c-neg" id="s-fneg">–</div></div>
-  <div class="stat-cell"><div class="stat-label">OI ↑</div><div class="stat-val c-pos" id="s-oiup">–</div></div>
-  <div class="stat-cell"><div class="stat-label">OI ↓</div><div class="stat-val c-neg" id="s-oidn">–</div></div>
-  <div class="stat-cell"><div class="stat-label">CB Prem +</div><div class="stat-val c-pos" id="s-cbp">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Top Gain</div><div class="stat-val c-pos" id="s-top">–</div></div>
-  <div class="stat-cell"><div class="stat-label">Top Loss</div><div class="stat-val c-neg" id="s-bot">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Fund+</div><div class="stat-val c-pos" id="s-fpos">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Fund–</div><div class="stat-val c-neg" id="s-fneg">–</div></div>
+  <div class="stat-cell"><div class="stat-label">OI↑</div><div class="stat-val c-pos" id="s-oiup">–</div></div>
+  <div class="stat-cell"><div class="stat-label">OI↓</div><div class="stat-val c-neg" id="s-oidn">–</div></div>
+  <div class="stat-cell"><div class="stat-label">CB Premium+</div><div class="stat-val c-pos" id="s-cbp">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Top Tăng</div><div class="stat-val c-pos" id="s-top">–</div></div>
+  <div class="stat-cell"><div class="stat-label">Top Giảm</div><div class="stat-val c-neg" id="s-bot">–</div></div>
   <div class="stat-cell"><div class="stat-label">Squeeze?</div><div class="stat-val" id="s-sq" style="color:var(--purple)">–</div></div>
 </div>
 
 <div class="table-container">
-  <div class="loading-full" id="loadingMsg"><div class="spinner"></div> Loading all Binance Futures coins...</div>
+  <div class="loading-full" id="loadingMsg"><div class="spinner"></div> Đang tải tất cả coin Binance Futures...</div>
   <table id="mainTable" style="display:none">
     <thead><tr>
       <th data-col="num">#</th>
@@ -218,43 +216,6 @@ let allCoinsData = [];
 let sortKey = 'vol24';
 let sortDir = -1;
 let hiddenCols = new Set();
-
-// ── COIN NAME MAP ──
-const COIN_NAMES = {
-  BTC:'Bitcoin',ETH:'Ethereum',BNB:'BNB',SOL:'Solana',XRP:'XRP',
-  DOGE:'Dogecoin',ADA:'Cardano',TRX:'TRON',AVAX:'Avalanche',SHIB:'Shiba Inu',
-  DOT:'Polkadot',LINK:'Chainlink',BCH:'Bitcoin Cash',NEAR:'NEAR Protocol',
-  LTC:'Litecoin',UNI:'Uniswap',APT:'Aptos',SUI:'Sui',OP:'Optimism',
-  ARB:'Arbitrum',ATOM:'Cosmos',FIL:'Filecoin',HBAR:'Hedera',IMX:'Immutable',
-  MKR:'Maker',AAVE:'Aave',GRT:'The Graph',SNX:'Synthetix',CRV:'Curve',
-  COMP:'Compound',YFI:'Yearn Finance',SUSHI:'SushiSwap',BAL:'Balancer',
-  1INCH:'1inch',ZRX:'0x Protocol',STORJ:'Storj',SKL:'SKALE',
-  SAND:'The Sandbox',MANA:'Decentraland',AXS:'Axie Infinity',ENJ:'Enjin',
-  GALA:'Gala',CHZ:'Chiliz',FLOW:'Flow',ICP:'Internet Computer',
-  VET:'VeChain',EOS:'EOS',XLM:'Stellar',ALGO:'Algorand',
-  IOTA:'IOTA',ZEC:'Zcash',DASH:'Dash',XMR:'Monero',
-  ETC:'Ethereum Classic',THETA:'Theta',FTM:'Fantom',MATIC:'Polygon',
-  EGLD:'MultiversX',LUNA:'Terra',LUNC:'Terra Classic',
-  STX:'Stacks',MINA:'Mina',ROSE:'Oasis',KAVA:'Kava',
-  CELO:'Celo',ONE:'Harmony',ZIL:'Zilliqa',RVN:'Ravencoin',
-  HOT:'Holo',BAT:'Basic Attention',ICX:'ICON',ONT:'Ontology',
-  WAVES:'Waves',KSM:'Kusama',XTZ:'Tezos',NEO:'NEO',
-  QTUM:'Qtum',VGX:'Voyager',ANKR:'Ankr',CELR:'Celer',
-  OCEAN:'Ocean Protocol',FET:'Fetch.ai',AGIX:'SingularityNET',
-  TAO:'Bittensor',RNDR:'Render',WLD:'Worldcoin',
-  TON:'Toncoin',NOT:'Notcoin',TRUMP:'OFFICIAL TRUMP',OPG:'OpenGradient',
-  CHIP:'USD.AI',PEPE:'Pepe',WIF:'dogwifhat',BONK:'Bonk',
-  JUP:'Jupiter',PYTH:'Pyth',W:'Wormhole',STRK:'Starknet',
-  TIA:'Celestia',SEI:'Sei',INJ:'Injective',JTO:'Jito',
-  BLUR:'Blur',ENS:'Ethereum Name Service',LDO:'Lido DAO',
-  RUNE:'THORChain',DYDX:'dYdX',GMX:'GMX',PENDLE:'Pendle',
-  ENA:'Ethena',EIGEN:'EigenLayer',HYPE:'Hyperliquid',
-  PNUT:'Peanut the Squirrel',ACT:'Act I',MOODENG:'Moo Deng',
-  NEIRO:'Neiro',MEW:'cat in a dogs world',POPCAT:'Popcat',
-  BOME:'BOOK OF MEME',SLERF:'Slerf',WEN:'Wen',
-  BRETT:'Brett',MOG:'Mog Coin',TURBO:'Turbo',
-  FLOKI:'Floki',BABYDOGE:'Baby Doge',SAMO:'Samoyedcoin',
-};
 
 // ── UTILS ──
 async function fetchJSON(url, retries=2) {
@@ -443,19 +404,19 @@ function drawSparkline(values, color, width=120, height=36) {
 function getSignals(fund, oiPct, cvdSpot, cvdFut, cbPrem, chg24) {
   const badges=[];
   const f=fund*100;
-  if(f < -0.02) badges.push({c:'b-sq',  t:'SQUEEZE? / Dễ tăng mạnh'});
-  if(f >  0.06) badges.push({c:'b-bear',t:'OVERHTD / Quá nhiệt'});
-  if(oiPct !== null && oiPct >  4) badges.push({c:'b-bull',t:'OI↑ / OI tăng'});
-  if(oiPct !== null && oiPct < -4) badges.push({c:'b-bear',t:'OI↓ / OI giảm'});
-  if(cbPrem !== null && cbPrem > 0.05)  badges.push({c:'b-bull',t:'CB+ / Dòng tiền vào'});
-  if(cbPrem !== null && cbPrem < -0.05) badges.push({c:'b-bear',t:'CB– / Dòng tiền ra'});
+  if(f < -0.02) badges.push({c:'b-sq',  t:'SQUEEZE?'});
+  if(f >  0.06) badges.push({c:'b-bear',t:'OVERHTD'});
+  if(oiPct !== null && oiPct >  4) badges.push({c:'b-bull',t:'OI↑'});
+  if(oiPct !== null && oiPct < -4) badges.push({c:'b-bear',t:'OI↓'});
+  if(cbPrem !== null && cbPrem > 0.05)  badges.push({c:'b-bull',t:'CB+'});
+  if(cbPrem !== null && cbPrem < -0.05) badges.push({c:'b-bear',t:'CB–'});
   // CVD divergence: spot positive but futures negative = accumulation
   if(cvdSpot&&cvdFut) {
     const sLast=cvdSpot[cvdSpot.length-1]; const fLast=cvdFut[cvdFut.length-1];
-    if(sLast>0&&fLast<0) badges.push({c:'b-bull',t:'CVD DIV+ / Tích lũy'});
-    if(sLast<0&&fLast>0) badges.push({c:'b-bear',t:'CVD DIV– / Phân phối'});
+    if(sLast>0&&fLast<0) badges.push({c:'b-bull',t:'CVD DIV+'});
+    if(sLast<0&&fLast>0) badges.push({c:'b-bear',t:'CVD DIV–'});
   }
-  if(badges.length===0) badges.push({c:'b-neu',t:'WATCH / Theo dõi'});
+  if(badges.length===0) badges.push({c:'b-neu',t:'WATCH'});
   return badges;
 }
 
@@ -487,10 +448,10 @@ function renderRow(d, idx) {
 
   const cvdSpotHtml = spotImg
     ? `<div class="spark-wrap"><img src="${spotImg}" width="120" height="36"><span class="spark-val ${spotCls}">${fNum(spotLast,0)}</span></div>`
-    : '<span class="c-dim">loading…</span>';
+    : '<span class="c-dim">loading...</span>';
   const cvdFutHtml = futImg
     ? `<div class="spark-wrap"><img src="${futImg}" width="120" height="36"><span class="spark-val ${futCls}" style="color:var(--orange)">${fNum(futLast,0)}</span></div>`
-    : '<span class="c-dim">loading…</span>';
+    : '<span class="c-dim">loading...</span>';
 
   // CB Premium
   const cbVal = d.cbPrem;
@@ -502,10 +463,7 @@ function renderRow(d, idx) {
 
   return `<tr data-sym="${d.sym}">
     <td style="color:var(--dim);font-size:10px">${idx+1}</td>
-    <td><a href="https://coinmarketcap.com/currencies/${d.sym.toLowerCase()}/" target="_blank" style="text-decoration:none">
-      <span class="c-sym" style="cursor:pointer;border-bottom:1px dotted rgba(255,230,0,.3)">${d.sym}</span>
-      ${COIN_NAMES[d.sym]?`<span style="display:block;font-size:9px;color:var(--dim);margin-top:1px;letter-spacing:.3px">${COIN_NAMES[d.sym]}</span>`:''}
-    </a></td>
+    <td><span class="c-sym">${d.sym}</span></td>
     <td data-col="price"><span class="c-price">$${fPrice(d.price)}</span></td>
     <td data-col="chg24"><span class="chg-badge ${chgCls}">${chgSign}${d.chg24.toFixed(2)}%</span></td>
     <td data-col="vol24"><span style="color:#cce8ff">$${fNum(d.vol24)}</span></td>
@@ -663,7 +621,7 @@ async function loadAll() {
     document.getElementById('lastUpd').textContent='Updated '+new Date().toLocaleTimeString('vi-VN');
   } catch(e) {
     console.error(e);
-    document.getElementById('loadingMsg').innerHTML=`<span style="color:var(--red)">⚠ Error: ${e.message}</span>`;
+    document.getElementById('loadingMsg').innerHTML=`<span style="color:var(--red)">⚠ Lỗi: ${e.message}</span>`;
     document.getElementById('loadingMsg').style.display='flex';
   }
 
