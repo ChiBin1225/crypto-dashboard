@@ -94,6 +94,10 @@ tbody td:last-child{border-right:none;}
 .b-sq{background:rgba(191,95,255,.1);color:var(--purple);border:1px solid rgba(191,95,255,.3);}
 
 .col-hidden{display:none!important;}
+.sort-hint{color:#2a4a6a;font-size:9px;margin-left:2px;transition:color .15s;}
+thead th:hover .sort-hint{color:var(--accent);}
+thead th.sort-asc .sort-hint, thead th.sort-desc .sort-hint{display:none;}
+.sort-hint{color:#2a4a6a;font-size:10px;margin-left:2px;}
 
 .loading-full{display:flex;align-items:center;justify-content:center;padding:60px;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);}
 .spinner{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
@@ -190,18 +194,18 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
   <table id="mainTable" style="display:none">
     <thead><tr>
       <th data-col="num">#</th>
-      <th data-col="sym" onclick="sortBy('sym')">SYMBOL</th>
-      <th data-col="price" onclick="sortBy('price')">PRICE</th>
-      <th data-col="chg24" onclick="sortBy('chg24')">24H %</th>
-      <th data-col="vol24" onclick="sortBy('vol24')">VOLUME 24H</th>
-      <th data-col="volchg" onclick="sortBy('volchg')">VOL CHG 24H</th>
-      <th data-col="mcap" onclick="sortBy('mcap')">MKT CAP</th>
-      <th data-col="funding" onclick="sortBy('funding')">FUNDING</th>
-      <th data-col="oi" onclick="sortBy('oi')">OPEN INTEREST</th>
-      <th data-col="oipct" onclick="sortBy('oipct')">OI %</th>
+      <th data-col="sym" onclick="sortBy('sym')">SYMBOL <span class="sort-hint">⇅</span></th>
+      <th data-col="price" onclick="sortBy('price')">PRICE <span class="sort-hint">⇅</span></th>
+      <th data-col="chg24" onclick="sortBy('chg24')">24H % <span class="sort-hint">⇅</span></th>
+      <th data-col="vol24" onclick="sortBy('vol24')">VOLUME 24H <span class="sort-hint">⇅</span></th>
+      <th data-col="volchg" onclick="sortBy('volchg')">VOL CHG 24H <span class="sort-hint">⇅</span></th>
+      <th data-col="mcap" onclick="sortBy('mcap')">MKT CAP <span class="sort-hint">⇅</span></th>
+      <th data-col="funding" onclick="sortBy('funding')">FUNDING <span class="sort-hint">⇅</span></th>
+      <th data-col="oi" onclick="sortBy('oi')">OPEN INTEREST <span class="sort-hint">⇅</span></th>
+      <th data-col="oipct" onclick="sortBy('oipct')">OI % <span class="sort-hint">⇅</span></th>
       <th data-col="cvdspot">CVD SPOT <span style="color:#aaa;font-size:8px">7d</span></th>
       <th data-col="cvdfut">CVD FUTURE <span style="color:#ff9500;font-size:8px">7d</span></th>
-      <th data-col="cbprem" onclick="sortBy('cbprem')">CB PREMIUM</th>
+      <th data-col="cbprem" onclick="sortBy('cbprem')">CB PREMIUM <span class="sort-hint">⇅</span></th>
       <th data-col="signal">SIGNAL</th>
     </tr></thead>
     <tbody id="tableBody"></tbody>
@@ -585,6 +589,9 @@ function renderRow(d, idx) {
 function sortBy(key) {
   if(sortKey===key) sortDir*=-1;
   else { sortKey=key; sortDir=-1; }
+  document.querySelectorAll('thead th').forEach(th=>th.classList.remove('sort-asc','sort-desc'));
+  const activeTh = document.querySelector(`thead th[data-col="${key}"]`);
+  if(activeTh) activeTh.classList.add(sortDir===-1?'sort-desc':'sort-asc');
   applyFilters();
 }
 
