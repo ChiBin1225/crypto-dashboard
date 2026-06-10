@@ -25,7 +25,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
 
-.header{display:flex;align-items:center;gap:14px;padding:9px 16px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.header{display:flex;align-items:center;gap:10px;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:200;flex-wrap:wrap;}
 .logo{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:3px;text-shadow:0 0 14px rgba(255,230,0,.55);white-space:nowrap;}
 .sep{width:1px;height:22px;background:var(--border2);flex-shrink:0;}
 
@@ -43,9 +43,9 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .filter-select{padding:4px 7px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:10px;border-radius:3px;outline:none;cursor:pointer;}
 
 .stats-bar{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;background:var(--bg2);}
-.stat-cell{padding:6px 14px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
-.stat-label{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--text);margin-top:1px;}
+.stat-cell{padding:4px 10px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+.stat-label{font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--text);margin-top:1px;}
 
 .refresh-btn{padding:4px 12px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;border-radius:3px;transition:all .15s;margin-left:auto;}
 .refresh-btn:hover{background:var(--accent);color:#000;}
@@ -53,22 +53,22 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .last-upd{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);white-space:nowrap;}
 
 /* TABLE */
-.table-container{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 120px);}
+.table-container{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 108px);}
 table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;}
 thead{position:sticky;top:0;z-index:100;}
-thead th{padding:10px 12px;font-size:11px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:1px;background:#03070e;border-bottom:2px solid var(--border2);border-right:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;}
+thead th{padding:6px 8px;font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;background:#03070e;border-bottom:2px solid var(--border2);border-right:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;}
 thead th:hover{color:var(--accent);text-shadow:0 0 8px rgba(255,230,0,.5);}
 thead th.sort-asc::after{content:' ↑';color:var(--accent);}
 thead th.sort-desc::after{content:' ↓';color:var(--accent);}
 thead th:last-child{border-right:none;}
-tbody tr{border-bottom:1px solid #070e18;transition:background .1s;}
+tbody tr{border-bottom:1px solid #06101a;transition:background .1s;}
 tbody tr:hover{background:#0d1f35;}
-tbody td{padding:9px 12px;font-size:13px;border-right:1px solid #060d18;vertical-align:middle;white-space:nowrap;}
+tbody td{padding:5px 8px;font-size:12px;border-right:1px solid #060d18;vertical-align:middle;white-space:nowrap;line-height:1.35;}
 tbody td:last-child{border-right:none;}
 
 /* CELLS */
-.c-sym{font-size:12px;font-weight:700;color:var(--accent);text-shadow:0 0 10px rgba(255,230,0,.55);letter-spacing:.8px;}
-.c-price{font-size:14px;font-weight:700;color:#ffffff;}
+.c-sym{font-size:13px;font-weight:700;color:var(--accent);text-shadow:0 0 10px rgba(255,230,0,.6);letter-spacing:.6px;}
+.c-price{font-size:13px;font-weight:700;color:#ffffff;}
 .c-pos{color:#00ffaa;text-shadow:0 0 8px rgba(0,255,170,.5);}
 .c-neg{color:#ff4466;text-shadow:0 0 8px rgba(255,68,102,.5);}
 .c-neu{color:var(--yellow);}
@@ -78,7 +78,7 @@ tbody td:last-child{border-right:none;}
 .chg-badge.neg{background:rgba(255,68,102,.18);color:#ff4466;border:1px solid rgba(255,68,102,.4);}
 
 /* SPARKLINE CANVAS */
-.spark-wrap{position:relative;width:120px;height:36px;display:inline-block;}
+.spark-wrap{position:relative;width:100px;height:30px;display:inline-block;}
 .spark-wrap canvas{display:block;}
 .spark-val{position:absolute;bottom:0;right:0;font-size:9px;font-family:'IBM Plex Mono',monospace;}
 
@@ -87,7 +87,7 @@ tbody td:last-child{border-right:none;}
 
 /* SIGNAL */
 .sig-wrap{display:flex;gap:3px;flex-wrap:wrap;}
-.badge{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 5px;border-radius:2px;font-weight:600;white-space:nowrap;}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 4px;border-radius:2px;font-weight:700;white-space:nowrap;}
 .b-bull{background:rgba(0,255,170,.15);color:#00ffaa;border:1px solid rgba(0,255,170,.45);text-shadow:0 0 6px rgba(0,255,170,.4);}
 .b-bear{background:rgba(255,68,102,.15);color:#ff4466;border:1px solid rgba(255,68,102,.45);text-shadow:0 0 6px rgba(255,68,102,.4);}
 .b-neu{background:rgba(255,230,0,.1);color:#ffe600;border:1px solid rgba(255,230,0,.4);}
@@ -139,7 +139,9 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
     <button class="col-tog on" data-col="funding" onclick="toggleCol(this)">Funding</button>
     <button class="col-tog on" data-col="oi"      onclick="toggleCol(this)">OI</button>
     <button class="col-tog on" data-col="oipct"   onclick="toggleCol(this)">OI%</button>
-    <button class="col-tog on" data-col="cvdspot" onclick="toggleCol(this)">CVD</button>
+    <button class="col-tog on" data-col="cvdspot" onclick="toggleCol(this)">CVD Spot</button>
+    <button class="col-tog on" data-col="cvdfut"  onclick="toggleCol(this)">CVD Fut</button>
+    <button class="col-tog on" data-col="lsratio" onclick="toggleCol(this)">L/S Ratio</button>
     <button class="col-tog on" data-col="liqd"    onclick="toggleCol(this)">Liqd 24H</button>
     <button class="col-tog on" data-col="cbprem"  onclick="toggleCol(this)">CB Premium</button>
     <button class="col-tog on" data-col="signal"  onclick="toggleCol(this)">Signal</button>
@@ -190,6 +192,8 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
   <div class="stat-cell"><div class="stat-label">Top Gain</div><div class="stat-val c-pos" id="s-top">–</div></div>
   <div class="stat-cell"><div class="stat-label">Top Loss</div><div class="stat-val c-neg" id="s-bot">–</div></div>
   <div class="stat-cell"><div class="stat-label">Squeeze?</div><div class="stat-val" id="s-sq" style="color:var(--purple)">–</div></div>
+  <div class="stat-cell"><div class="stat-label">🟢 Score≥65</div><div class="stat-val c-pos" id="s-bull">–</div></div>
+  <div class="stat-cell"><div class="stat-label">🔴 Score≤35</div><div class="stat-val c-neg" id="s-bear">–</div></div>
 </div>
 
 <div class="table-container">
@@ -206,7 +210,9 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
       <th data-col="funding" onclick="sortBy('funding')">FUNDING <span class="sort-hint">⇅</span></th>
       <th data-col="oi" onclick="sortBy('oi')">OPEN INTEREST <span class="sort-hint">⇅</span></th>
       <th data-col="oipct" onclick="sortBy('oipct')">OI % <span class="sort-hint">⇅</span></th>
-      <th data-col="cvdspot">CVD <span style="color:#90bfd8;font-size:8px">SPOT&nbsp;/&nbsp;FUT</span></th>
+      <th data-col="cvdspot">CVD SPOT</th>
+      <th data-col="cvdfut">CVD FUT</th>
+      <th data-col="lsratio" onclick="sortBy('lsratio')">L/S RATIO <span class="sort-hint">⇅</span></th>
       <th data-col="liqd" onclick="sortBy('liqd')">LIQD 24H <span class="sort-hint">⇅</span></th>
       <th data-col="cbprem" onclick="sortBy('cbprem')">CB PREMIUM <span class="sort-hint">⇅</span></th>
       <th data-col="signal">SIGNAL</th>
@@ -456,6 +462,26 @@ async function getCVDFutures(sym) {
 }
 
 
+
+// ── LONG/SHORT RATIO (Global accounts) ──
+async function getLSRatio(sym) {
+  try {
+    const d = await fetchJSON(`${BASE}/futures/data/globalLongShortAccountRatio?symbol=${sym}USDT&period=5m&limit=1`);
+    if(!Array.isArray(d)||d.length===0) return null;
+    return parseFloat(d[0].longShortRatio);
+  } catch { return null; }
+}
+
+// ── FUNDING AVERAGE 3 KỲ (8h mỗi kỳ = 24h) ──
+async function getFundingAvg(sym) {
+  try {
+    const d = await fetchJSON(`${BASE}/fapi/v1/fundingRate?symbol=${sym}USDT&limit=3`);
+    if(!Array.isArray(d)||d.length===0) return null;
+    const avg = d.reduce((s,r)=>s+parseFloat(r.fundingRate),0)/d.length;
+    return avg;
+  } catch { return null; }
+}
+
 // ── LIQUIDATIONS 24H ──
 async function getLiquidations(sym) {
   try {
@@ -477,7 +503,7 @@ async function getLiquidations(sym) {
 }
 
 // ── SQUEEZE SCORE 0–100 ──
-function getSqueezeScore(fund, oiPct, cvdSpot, cvdFut, cbPrem, volChgPct, liqd) {
+function getSqueezeScore(fund, oiPct, cvdSpot, cvdFut, cbPrem, volChgPct, liqd, lsRatio, fundAvg) {
   let score = 50; // neutral baseline
   const f = (fund??0) * 100;
 
@@ -534,6 +560,19 @@ function getSqueezeScore(fund, oiPct, cvdSpot, cvdFut, cbPrem, volChgPct, liqd) 
     else if (shortRatio < 0.45) score -= 5;
   }
 
+  // L/S ratio (max ±10)
+  if (lsRatio !== null && lsRatio !== undefined) {
+    if (lsRatio < 0.6)       score += 10; // too many shorts → squeeze
+    else if (lsRatio < 0.85) score += 5;
+    else if (lsRatio > 1.8)  score -= 10; // too many longs → top risk
+    else if (lsRatio > 1.3)  score -= 5;
+  }
+  // Funding avg (max ±5 bonus/penalty on top of instant funding)
+  if (fundAvg !== null && fundAvg !== undefined) {
+    const fa = fundAvg * 100;
+    if (fa < -0.02) score += 5;
+    else if (fa > 0.06) score -= 5;
+  }
   return Math.max(0, Math.min(100, Math.round(score)));
 }
 
@@ -665,7 +704,7 @@ function cvdSlope(arr) {
   return 0;
 }
 
-function getSignals(fund, oiPct, cvdSpot, cvdFut, cbPrem, chg24) {
+function getSignals(fund, oiPct, cvdSpot, cvdFut, cbPrem, chg24, lsRatio, fundAvg) {
   const badges = [];
   const f = fund * 100; // funding in %
 
@@ -730,7 +769,24 @@ function getSignals(fund, oiPct, cvdSpot, cvdFut, cbPrem, chg24) {
     else if (cbPrem < -0.03) badges.push({c:'b-bear', t:'CB– / Spot discount'});
   }
 
-  // ── 6. COMPOSITE SCORE → tổng hợp bullish/bearish badges ──
+  // ── 6. L/S RATIO ──
+  if (lsRatio !== null && lsRatio !== undefined) {
+    if (lsRatio > 1.8)       badges.push({c:'b-bear', t:'L/S OVR / Quá nhiều long'});
+    else if (lsRatio > 1.3)  badges.push({c:'b-neu',  t:'L>S / Nghiêng long'});
+    else if (lsRatio < 0.6)  badges.push({c:'b-bull', t:'S OVR / Quá nhiều short→SQ'});
+    else if (lsRatio < 0.85) badges.push({c:'b-bull', t:'S>L / Nghiêng short→SQ'});
+  }
+
+  // ── 7. FUNDING AVG 3 KỲ vs SPOT FUNDING ──
+  if (fundAvg !== null && fundAvg !== undefined) {
+    const fa = fundAvg * 100;
+    if (fa < -0.02 && fund*100 < -0.01)
+      badges.push({c:'b-sq', t:'FUND AVG– / Liên tục âm'});
+    else if (fa > 0.06 && fund*100 > 0.04)
+      badges.push({c:'b-bear', t:'FUND AVG+ / Liên tục dương'});
+  }
+
+  // ── 8. COMPOSITE SCORE → tổng hợp bullish/bearish badges ──
   const bullCount = badges.filter(b=>b.c==='b-bull'||b.c==='b-sq').length;
   const bearCount = badges.filter(b=>b.c==='b-bear').length;
   if (badges.length === 0) {
@@ -755,8 +811,8 @@ function renderRow(d, idx) {
   const oiPctSign = d.oiPct>0?'▲ +':d.oiPct<0?'▼ ':'';
   const oiPctDisp = d.oiPct!==null?`${oiPctSign}${d.oiPct.toFixed(2)}%`:'–';
   const mcap = mcapCache[d.sym] ?? null;
-  const sigs = getSignals(fVal, d.oiPct, d.cvdSpot, d.cvdFut, d.cbPrem, d.chg24);
-  const sqScore = getSqueezeScore(fVal, d.oiPct, d.cvdSpot, d.cvdFut, d.cbPrem, d.volChgPct, d.liqd);
+  const sigs = getSignals(fVal, d.oiPct, d.cvdSpot, d.cvdFut, d.cbPrem, d.chg24, d.lsRatio, d.fundAvg);
+  const sqScore = getSqueezeScore(fVal, d.oiPct, d.cvdSpot, d.cvdFut, d.cbPrem, d.volChgPct, d.liqd, d.lsRatio, d.fundAvg);
   const sqColor = scoreColor(sqScore);
   const sqLabel = scoreLabel(sqScore);
 
@@ -766,18 +822,18 @@ function renderRow(d, idx) {
     : '<span class="c-dim">–</span>';
 
   // CVD sparklines
-  const spotImg  = d.cvdSpot  ? drawSparkline(d.cvdSpot,  '#ffffff', 120, 36) : null;
-  const futImg   = d.cvdFut   ? drawSparkline(d.cvdFut,   '#ff9500', 120, 36) : null;
+  const spotImg  = d.cvdSpot  ? drawSparkline(d.cvdSpot,  '#60d0ff', 100, 30) : null;
+  const futImg   = d.cvdFut   ? drawSparkline(d.cvdFut,   '#ffaa22', 100, 30) : null;
   const spotLast = d.cvdSpot  ? d.cvdSpot[d.cvdSpot.length-1]  : null;
   const futLast  = d.cvdFut   ? d.cvdFut[d.cvdFut.length-1]    : null;
   const spotCls  = spotLast>0?'c-pos':'c-neg';
   const futCls   = futLast>0?'c-pos':'c-neg';
 
   const cvdSpotHtml = spotImg
-    ? `<div class="spark-wrap"><img src="${spotImg}" width="120" height="36"><span class="spark-val ${spotCls}">${fNum(spotLast,0)}</span></div>`
+    ? `<div class="spark-wrap"><img src="${spotImg}" width="100" height="30"><span class="spark-val ${spotCls}" style="color:#60d0ff">${fNum(spotLast,0)}</span></div>`
     : '<span class="c-dim">loading…</span>';
   const cvdFutHtml = futImg
-    ? `<div class="spark-wrap"><img src="${futImg}" width="120" height="36"><span class="spark-val ${futCls}" style="color:var(--orange)">${fNum(futLast,0)}</span></div>`
+    ? `<div class="spark-wrap"><img src="${futImg}" width="100" height="30"><span class="spark-val ${futCls}" style="color:#ffaa22">${fNum(futLast,0)}</span></div>`
     : '<span class="c-dim">loading…</span>';
 
   // CB Premium
@@ -800,23 +856,30 @@ function renderRow(d, idx) {
     <td data-col="volchg">${volChgHtml}</td>
     <td data-col="mcap"><span style="color:#b8e0ff;font-size:12px">$${fNum(mcap,0)}</span></td>
     <td data-col="funding">
-      <span class="${fCls}" style="font-weight:600">${fSign}${(fVal*100).toFixed(4)}%</span>
+      <span class="${fCls}" style="font-weight:600;font-size:13px">${fSign}${(fVal*100).toFixed(4)}%</span>
       <span style="display:block;font-size:9px;color:var(--dim)">${fVal>0?'Long pays':'Short pays'}</span>
+      ${d.fundAvg!==null&&d.fundAvg!==undefined?`<span style="display:block;font-size:9px;color:${d.fundAvg<-0.0001?'#d070ff':d.fundAvg>0.0004?'#ff7755':'#6090a0'}">avg3: ${d.fundAvg>0?'+':''}${(d.fundAvg*100).toFixed(4)}%</span>`:''}
     </td>
-    <td data-col="oi"><span style="color:#d8f0ff">${fNum(d.oi)}</span></td>
+    <td data-col="oi">${d.oi!==null&&d.oi!==undefined&&d.price
+      ?`<span style="color:#d8f0ff;font-weight:600">$${fNum(d.oi*d.price,0)}</span>
+        <span style="display:block;font-size:9px;color:var(--dim)">${fNum(d.oi,0)} contracts</span>`
+      :'<span class="c-dim">–</span>'
+    }</td>
     <td data-col="oipct"><span class="${oiPctCls}" style="font-weight:600">${oiPctDisp}</span></td>
-    <td data-col="cvdspot">
-      <div style="display:flex;flex-direction:column;gap:4px">
-        <div style="display:flex;align-items:center;gap:4px">
-          <span style="font-size:8px;color:#90bfd8;width:26px;flex-shrink:0">SPOT</span>
-          ${cvdSpotHtml}
-        </div>
-        <div style="display:flex;align-items:center;gap:4px">
-          <span style="font-size:8px;color:var(--orange);width:26px;flex-shrink:0">FUT</span>
-          ${cvdFutHtml}
-        </div>
-      </div>
-    </td>
+    <td data-col="cvdspot">${cvdSpotHtml}</td>
+    <td data-col="cvdfut">${cvdFutHtml}</td>
+    <td data-col="lsratio">${(()=>{
+      if(d.lsRatio===null||d.lsRatio===undefined) return '<span class="c-dim">–</span>';
+      const r=d.lsRatio;
+      const longPct=(r/(1+r)*100).toFixed(1);
+      const shortPct=(100-parseFloat(longPct)).toFixed(1);
+      const cls=r>1.2?'c-pos':r<0.8?'c-neg':'c-dim';
+      return `<div style="font-size:12px;font-weight:700;color:${r>1.2?'#00ffaa':r<0.8?'#ff4466':'#ffe600'}">${r.toFixed(2)}</div>
+              <div style="font-size:9px;margin-top:1px;display:flex;gap:3px">
+                <span style="color:#00ffaa">L ${longPct}%</span>
+                <span style="color:#ff4466">S ${shortPct}%</span>
+              </div>`;
+    })()}</td>
     <td data-col="liqd">${d.liqd!==null&&d.liqd!==undefined
       ? `<div style="font-size:12px;color:#d8f0ff;font-weight:600">$${fNum(d.liqd,0)}</div>
          <div style="font-size:9px;margin-top:2px;display:flex;gap:4px">
@@ -827,9 +890,9 @@ function renderRow(d, idx) {
     }</td>
     <td data-col="cbprem">${cbHtml}</td>
     <td data-col="signal"><div class="sig-wrap">${sigs.map(s=>`<span class="badge ${s.c}">${s.t}</span>`).join('')}</div></td>
-    <td data-col="score" style="text-align:center">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:${sqColor};text-shadow:0 0 10px ${sqColor}88;line-height:1">${sqScore}</div>
-      <div style="font-size:9px;color:${sqColor};letter-spacing:1px;margin-top:2px">${sqLabel}</div>
+    <td data-col="score" style="text-align:center;min-width:64px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:${sqColor};text-shadow:0 0 12px ${sqColor}99;line-height:1">${sqScore}</div>
+      <div style="font-size:9px;font-weight:700;color:${sqColor};letter-spacing:1.5px;margin-top:2px">${sqLabel}</div>
     </td>
   </tr>`;
 }
@@ -874,7 +937,7 @@ function applyFilters() {
     sym:'sym',price:'price',chg24:'chg24',vol24:'vol24',
     volchg:'volChgPct',mcap:d=>mcapCache[d.sym]??0,
     funding:'funding',oi:'oi',oipct:'oiPct',
-    cbprem:'cbPrem',liqd:'liqd',
+    cbprem:'cbPrem',liqd:'liqd',lsratio:'lsRatio',
     score:d=>getSqueezeScore(d.funding,d.oiPct,d.cvdSpot,d.cvdFut,d.cbPrem,d.volChgPct,d.liqd)
   };
   filtered.sort((a,b)=>{
@@ -912,6 +975,8 @@ function updateStats(data) {
   document.getElementById('s-sq').textContent=sq+' coins';
   document.getElementById('s-top').textContent=s24[0]?`${s24[0].sym} +${s24[0].chg24.toFixed(1)}%`:'–';
   document.getElementById('s-bot').textContent=s24[s24.length-1]?`${s24[s24.length-1].sym} ${s24[s24.length-1].chg24.toFixed(1)}%`:'–';
+  document.getElementById('s-bull').textContent=data.filter(d=>getSqueezeScore(d.funding,d.oiPct,d.cvdSpot,d.cvdFut,d.cbPrem,d.volChgPct,d.liqd,d.lsRatio,d.fundAvg)>=65).length+' coins';
+  document.getElementById('s-bear').textContent=data.filter(d=>getSqueezeScore(d.funding,d.oiPct,d.cvdSpot,d.cvdFut,d.cbPrem,d.volChgPct,d.liqd,d.lsRatio,d.fundAvg)<=35).length+' coins';
 }
 
 // ── COLUMN TOGGLE ──
@@ -954,7 +1019,7 @@ async function loadAll() {
       sym, ...tickers[sym],
       funding: funding[sym]??0,
       oi:null, oiPct:null, volChgPct:null,
-      cvdSpot:null, cvdFut:null, cbPrem:null, liqd:null, liqdLong:null, liqdShort:null
+      cvdSpot:null, cvdFut:null, cbPrem:null, liqd:null, liqdLong:null, liqdShort:null, lsRatio:null, fundAvg:null
     }));
 
     allCoinsData.sort((a,b)=>b.vol24-a.vol24);
@@ -971,7 +1036,7 @@ async function loadAll() {
     for(let i=0;i<top40.length;i+=BATCH) {
       const batch=top40.slice(i,i+BATCH);
       await Promise.all(batch.map(async d=>{
-        const [oi,oiPct,volChgPct,cvdSpot,cvdFut,cbPrem,liqdData]=await Promise.all([
+        const [oi,oiPct,volChgPct,cvdSpot,cvdFut,cbPrem,liqdData,lsRatio,fundAvg]=await Promise.all([
           getOI(d.sym),
           getOIPct(d.sym),
           getVolChange(d.sym),
@@ -979,10 +1044,13 @@ async function loadAll() {
           getCVDFutures(d.sym),
           getCBPremium(d.sym),
           getLiquidations(d.sym),
+          getLSRatio(d.sym),
+          getFundingAvg(d.sym),
         ]);
         d.oi=oi; d.oiPct=oiPct; d.volChgPct=volChgPct;
         d.cvdSpot=cvdSpot; d.cvdFut=cvdFut; d.cbPrem=cbPrem;
         if(liqdData){d.liqd=liqdData.total;d.liqdLong=liqdData.long;d.liqdShort=liqdData.short;}
+        d.lsRatio=lsRatio; d.fundAvg=fundAvg;
       }));
       applyFilters();
       if(i+BATCH<top40.length) await sleep(700);
