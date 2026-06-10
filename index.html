@@ -316,6 +316,11 @@ async function fetchJSON(url, retries=1) {
         rateLimited = true;
         rateLimitUntil = Date.now() + 120000;
         showRateLimitBanner(120);
+        // Ẩn loading spinner, hiện table nếu đã có data
+        const loadMsg = document.getElementById('loadingMsg');
+        const mainTbl = document.getElementById('mainTable');
+        if(loadMsg) loadMsg.style.display='none';
+        if(mainTbl && allCoinsData.length>0) mainTbl.style.display='';
         throw new Error(String(r.status));
       }
       if (!r.ok) throw new Error(String(r.status));
@@ -341,6 +346,8 @@ function showRateLimitBanner(secs) {
       rateLimited=false;
       if(btn){ btn.classList.remove('loading'); btn.textContent='↻ REFRESH'; }
       if(upd) upd.textContent='Sẵn sàng — nhấn REFRESH';
+      const loadMsg = document.getElementById('loadingMsg');
+      if(loadMsg) loadMsg.style.display='none';
     }
   },1000);
 }
