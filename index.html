@@ -985,7 +985,7 @@ async function loadAll() {
         if(liqdData){d.liqd=liqdData.total;d.liqdLong=liqdData.long;d.liqdShort=liqdData.short;}
       }));
       applyFilters();
-      if(i+BATCH<top60.length) await sleep(700);
+      if(i+BATCH<top40.length) await sleep(700);
     }
 
     document.getElementById('lastUpd').textContent='Updated '+new Date().toLocaleTimeString('vi-VN');
