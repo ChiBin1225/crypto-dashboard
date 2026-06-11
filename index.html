@@ -269,6 +269,29 @@ const COIN_NAMES = {
   FLOKI:'Floki',BABYDOGE:'Baby Doge',SAMO:'Samoyedcoin',
 };
 
+// ── RWA SYMBOLS: tokenized stocks/ETFs → use /real-world-assets/<slug>/ on CMC ──
+const CMC_RWA_SLUGS = {
+  INTC: 'intel',
+  TSLA: 'tesla',
+  META: 'meta',
+  NVDA: 'nvidia',
+  GOOGL: 'alphabet',
+  AAPL: 'apple',
+  TSM:  'taiwan-semiconductor-manufacturing',
+  MSFT: 'microsoft',
+  AMZN: 'amazon',
+  AMZN: 'amazon',
+  QQQ:  'invesco-qqq-trust',
+  SPY:  'spdr-sp-500-etf-trust',
+  COIN: 'coinbase',
+  NFLX: 'netflix',
+  AMD:  'advanced-micro-devices',
+  MU:   'micron-technology',
+  BABA: 'alibaba',
+  XAU:  'gold',
+  XAG:  'silver',
+};
+
 // ── CMC SLUG MAP (overrides where ticker != slug) ──
 const CMC_SLUGS = {
   BTC:'bitcoin', ETH:'ethereum', BNB:'bnb', SOL:'solana', XRP:'xrp',
@@ -846,7 +869,7 @@ function renderRow(d, idx) {
 
   return `<tr data-sym="${d.sym}">
     <td style="color:var(--dim);font-size:10px">${idx+1}</td>
-    <td><a href="https://coinmarketcap.com/currencies/${(CMC_SLUGS[d.sym]||d.sym).toLowerCase()}/" target="_blank" style="text-decoration:none">
+    <td><a href="${CMC_RWA_SLUGS[d.sym] ? `https://coinmarketcap.com/real-world-assets/${CMC_RWA_SLUGS[d.sym]}/` : `https://coinmarketcap.com/currencies/${(CMC_SLUGS[d.sym]||d.sym).toLowerCase()}/`}" target="_blank" style="text-decoration:none">
       <span class="c-sym" style="cursor:pointer;border-bottom:1px dotted rgba(255,230,0,.3)">${d.sym}</span>
       ${COIN_NAMES[d.sym]?`<span style="display:block;font-size:9px;color:var(--dim);margin-top:1px;letter-spacing:.3px">${COIN_NAMES[d.sym]}</span>`:''}
     </a></td>
