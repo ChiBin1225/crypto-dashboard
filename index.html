@@ -142,7 +142,7 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
     <button class="col-tog on" data-col="cvdspot" onclick="toggleCol(this)">CVD Spot</button>
     <button class="col-tog on" data-col="cvdfut"  onclick="toggleCol(this)">CVD Fut</button>
     <button class="col-tog on" data-col="lsratio" onclick="toggleCol(this)">L/S Ratio</button>
-    <button class="col-tog on" data-col="liqd"    onclick="toggleCol(this)">Liqd 24H</button>
+    <button class="col-tog on" data-col="liqd"    onclick="toggleCol(this)">Liqd 30M</button>
     <button class="col-tog on" data-col="cbprem"  onclick="toggleCol(this)">CB Premium</button>
     <button class="col-tog on" data-col="signal"  onclick="toggleCol(this)">Signal</button>
     <button class="col-tog on" data-col="score"   onclick="toggleCol(this)">Score</button>
@@ -213,7 +213,7 @@ tbody tr:hover .c-sym{border-bottom-color:rgba(255,230,0,.7);}
       <th data-col="cvdspot">CVD SPOT</th>
       <th data-col="cvdfut">CVD FUT</th>
       <th data-col="lsratio" onclick="sortBy('lsratio')">L/S RATIO <span class="sort-hint">⇅</span></th>
-      <th data-col="liqd" onclick="sortBy('liqd')">LIQD 24H <span class="sort-hint">⇅</span></th>
+      <th data-col="liqd" onclick="sortBy('liqd')">LIQD 30M <span class="sort-hint">⇅</span></th>
       <th data-col="cbprem" onclick="sortBy('cbprem')">CB PREMIUM <span class="sort-hint">⇅</span></th>
       <th data-col="signal">SIGNAL</th>
       <th data-col="score" onclick="sortBy('score')">SCORE <span class="sort-hint">⇅</span></th>
@@ -433,12 +433,10 @@ async function getOI(sym) {
   } catch { return null; }
 }
 
-// OI% = % change vs 4 periods ago
+// OI% = % change trong 30 phút gần nhất (6 nến x 5m = 30m)
 async function getOIPct(sym) {
   try {
-    const periodMap={'1m':'5m','3m':'5m','15m':'15m','30m':'30m','1h':'1h','2h':'2h','4h':'4h','1d':'1d','1w':'1d'};
-    const period = periodMap[currentTF]||'15m';
-    const d = await fetchJSON(`${BASE}/futures/data/openInterestHist?symbol=${sym}USDT&period=${period}&limit=5`);
+    const d = await fetchJSON(`${BASE}/futures/data/openInterestHist?symbol=${sym}USDT&period=5m&limit=7`);
     if(!d||d.length<2) return null;
     const latest=parseFloat(d[d.length-1].sumOpenInterest);
     const prev=parseFloat(d[0].sumOpenInterest);
@@ -446,11 +444,10 @@ async function getOIPct(sym) {
   } catch { return null; }
 }
 
-// CVD Spot: cumulative delta of spot klines (taker buy - taker sell) over 7 days
-// Uses 1h klines, 168 candles = 7 days, returns array of cumulative values
+// CVD Spot: cumulative delta 30 phút gần nhất (30 nến x 1m)
 async function getCVDSpot(sym) {
   try {
-    const d = await fetchJSON(`${SBASE}/api/v3/klines?symbol=${sym}USDT&interval=1h&limit=72`);
+    const d = await fetchJSON(`${SBASE}/api/v3/klines?symbol=${sym}USDT&interval=1m&limit=30`);
     if(!d||d.length<2) return null;
     const deltas = d.map(k=>{
       const vol   = parseFloat(k[5]);
@@ -465,10 +462,10 @@ async function getCVDSpot(sym) {
   } catch { return null; }
 }
 
-// CVD Futures: same but futures klines
+// CVD Futures: cumulative delta 30 phút gần nhất (30 nến x 1m)
 async function getCVDFutures(sym) {
   try {
-    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=1h&limit=72`);
+    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=1m&limit=30`);
     if(!d||d.length<2) return null;
     const deltas = d.map(k=>{
       const vol   = parseFloat(k[5]);
@@ -484,12 +481,14 @@ async function getCVDFutures(sym) {
 
 
 
-// ── LONG/SHORT RATIO (Global accounts) ──
+// ── LONG/SHORT RATIO — trung bình 30 phút (6 x 5m) ──
 async function getLSRatio(sym) {
   try {
-    const d = await fetchJSON(`${BASE}/futures/data/globalLongShortAccountRatio?symbol=${sym}USDT&period=5m&limit=1`);
+    const d = await fetchJSON(`${BASE}/futures/data/globalLongShortAccountRatio?symbol=${sym}USDT&period=5m&limit=6`);
     if(!Array.isArray(d)||d.length===0) return null;
-    return parseFloat(d[0].longShortRatio);
+    // lấy trung bình 6 kỳ thay vì chỉ 1 snapshot
+    const avg = d.reduce((s,r)=>s+parseFloat(r.longShortRatio),0)/d.length;
+    return avg;
   } catch { return null; }
 }
 
@@ -503,14 +502,13 @@ async function getFundingAvg(sym) {
   } catch { return null; }
 }
 
-// ── LIQUIDATIONS 24H ──
+// ── LIQUIDATIONS 30 PHÚT ──
 async function getLiquidations(sym) {
   try {
-    // Binance fapi/v1/allForceOrders: public, last 24h
     const d = await fetchJSON(`${BASE}/fapi/v1/allForceOrders?symbol=${sym}USDT&limit=200`);
     if(!Array.isArray(d)||d.length===0) return {total:0,long:0,short:0};
     const now = Date.now();
-    const cutoff = now - 24*60*60*1000;
+    const cutoff = now - 30*60*1000; // 30 phút
     let longUsd=0, shortUsd=0;
     d.forEach(o=>{
       if(o.time < cutoff) return;
