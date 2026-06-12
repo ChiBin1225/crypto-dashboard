@@ -280,7 +280,6 @@ const CMC_RWA_SLUGS = {
   TSM:  'taiwan-semiconductor-manufacturing',
   MSFT: 'microsoft',
   AMZN: 'amazon',
-  AMZN: 'amazon',
   QQQ:  'invesco-qqq-trust',
   SPY:  'spdr-sp-500-etf-trust',
   COIN: 'coinbase',
@@ -318,7 +317,7 @@ const CMC_SLUGS = {
   TRUMP:'official-trump', PEPE:'pepe', WIF:'dogwifcoin',
   JUP:'jupiter-ag', PYTH:'pyth-network', STRK:'starknet',
   TIA:'celestia', SEI:'sei-network', INJ:'injective-protocol',
-  BLUR:'blur-token', ENS:'ethereum-name-service', LDO:'lido-dao',
+  BLUR:'blur', ENS:'ethereum-name-service', LDO:'lido-dao',
   RUNE:'thorchain', DYDX:'dydx', PENDLE:'pendle',
   ENA:'ethena', HYPE:'hyperliquid', PNUT:'peanut-the-squirrel',
   OPG:'opengradient', CHIP:'usd-ai', NOT:'notcoin',
@@ -326,9 +325,8 @@ const CMC_SLUGS = {
   BOME:'book-of-meme', BRETT:'brett', MOG:'mog-coin', TURBO:'turbo',
   FLOKI:'floki', ACT:'act-i-the-ai-prophecy', MOODENG:'moo-deng',
   SLERF:'slerf', WEN:'wen', BABYDOGE:'baby-doge-coin', SAMO:'samoyedcoin',
-  W:'wormhole', EIGEN:'eigenlayer', BLUR:'blur', GMX:'gmx',
-  BONK:'bonk', WIF:'dogwifcoin', JTO:'jito-governance-token',
-  TRUMP:'official-trump', PEPE:'pepe',
+  W:'wormhole', EIGEN:'eigenlayer', GMX:'gmx',
+  BONK:'bonk', JTO:'jito-governance-token',
 };
 
 // ── UTILS ──
@@ -635,13 +633,16 @@ async function getCBPremium(sym) {
   } catch { return null; }
 }
 
-// Volume change 24h: compare today vs yesterday kline
+// Volume change 24h: compare yesterday (closed) vs day before (closed)
+// d[length-1] = today's candle (still open/incomplete) → skip
+// d[length-2] = yesterday closed  ← curr
+// d[length-3] = day before closed ← prev
 async function getVolChange(sym) {
   try {
-    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=1d&limit=3`);
-    if(!d||d.length<2) return null;
-    const curr=parseFloat(d[d.length-1][7]);
-    const prev=parseFloat(d[d.length-2][7]);
+    const d = await fetchJSON(`${BASE}/fapi/v1/klines?symbol=${sym}USDT&interval=1d&limit=4`);
+    if(!d||d.length<3) return null;
+    const curr=parseFloat(d[d.length-2][7]); // yesterday closed
+    const prev=parseFloat(d[d.length-3][7]); // day before closed
     return prev>0?((curr-prev)/prev)*100:null;
   } catch { return null; }
 }
